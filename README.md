@@ -1,4 +1,3 @@
-**[Website content]**
-----
+wtf just happened
 
-[![CodeFactor](https://www.codefactor.io/repository/github/jarhead4/retrosite/badge)](https://www.codefactor.io/repository/github/jarhead4/retrosite)
+![CodeFactor](https://www.codefactor.io/repository/github/jarteam/retrosite/badge)](https://www.codefactor.io/repository/github/jarteam/retrosite)
