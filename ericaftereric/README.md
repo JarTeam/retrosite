@@ -1,3 +1,3 @@
-# Eric's Subsite on 2003page
+# Eric's Subsite on retrosite
 
 It's my site.
