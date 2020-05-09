@@ -1,0 +1,156 @@
+	.gradiant_bar
+	{
+		background-repeat : repeat-x;
+	}
+	
+	.intro_body
+	{
+		font-family: "Franklin Gothic Book", "Tahoma";
+		font-size : 1.55em;
+		line-height : 40px;
+		color : #808080;
+	}
+	
+	.intro_nav
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .9em;
+		margin-top : 5px;
+		color : #808080;
+	}
+	
+	.intro_nav_title
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : 1.075em;
+		text-decoration : none;
+		margin-bottom : 5px;
+	}
+	
+	.reg
+	{
+		font-size : 20px;
+	}
+	
+	.nav_header
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .9em;
+	}
+	
+	.nav_header_selected
+	{
+		font-family : "Franklin Gothic Demi," "Tahoma";
+		font-size : .95em;
+		font-weight : bold;
+	}
+
+	.start_here
+	{
+		color : #808080;
+		text-decoration : none;
+	}
+
+	.safe_easy
+	{
+		color : #FF4600;
+		text-decoration : none;
+	}
+
+	.unlock
+	{
+		color : #54AA2B;
+		text-decoration : none;
+	}
+	
+	.connected
+	{
+		color : #495AD1;
+		text-decoration : none;
+	}
+	/* <table bgcolor="#D29B00"> */
+	.best
+	{
+		color : #D29B00;
+		text-decoration : none;
+	}
+	
+	.ghost
+	{
+		color : #BBC6C2;
+		text-decoration : none;
+	}
+	
+	.nav_blue_balls
+	{
+		font-family : "Franklin Gothic Medium, Tahoma";
+		font-size : .7em;
+		color : #808080;
+		text-decoration : none;
+	}
+	
+	.nav_blue_balls_selected
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .75em;
+		font-weight : bold;
+		color : #808080;
+		text-decoration : none;
+	}
+	
+	.nav_icons
+	{
+		font-family : Tahoma;
+		font-size : 11px;
+		font-weight : bold;
+		
+	}	.nav_bottom
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .7125em;
+		font-weight : bold;
+		color : White;
+		text-decoration : none;
+	}
+	
+	.nav_bottom_selected
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .7125em;
+		font-weight : bold;
+		color : #91A8FF;
+		text-decoration : none;
+	}
+	
+	.icon_text
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .75em;
+		color : #495AD1;
+		text-decoration : none;
+	}
+	
+	.body_header
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : 1.25em;
+		font-weight : bold;
+		margin-bottom : 1px;
+		margin-top: 20px;
+	}
+	
+	.body_text
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : 0.8em;
+		color : #808080;
+		margin-top : 1px;
+	}
+	
+	.body_text_small
+	{
+		font-family : "Franklin Gothic Medium", "Tahoma";
+		font-size : .725em;
+		color : #808080;
+		margin-top : 1px;
+	}
