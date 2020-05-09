@@ -1,0 +1,8 @@
+Sitemap: http://2003page.ga/sitemap/index.htm
+
+User-agent: Baiduspider
+Disallow: /
+
+# User-agent: *
+# Disallow: /wii/
+# Disallow: /misc/

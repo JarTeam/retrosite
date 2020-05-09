@@ -1,0 +1,15 @@
+/* Special CSS! */
+
+body
+{
+	background: url(legacy_background_aero.jpg); /* Legacy (Unsupported) browsers */
+	background: -moz-linear-gradient(top, rgb(243, 151, 14) 0%, rgb(97, 61, 17) 100%); /* FF 3.6-15 */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243, 151, 14)), color-stop(100%,rgb(97, 61, 17))); /* Chrome 2-9, Safari 4-5 */
+	background: -webkit-linear-gradient(top, rgb(243, 151, 14) 0%,rgb(97, 61, 17) 100%); /* Chrome 10-25, Safari 5.1-6 */
+	background: -o-linear-gradient(top, rgb(243, 151, 14) 0%,rgb(97, 61, 17) 100%); /* Opera 11.10-11.50 */
+	background: -ms-linear-gradient(top, rgb(243, 151, 14) 0%,rgb(97, 61, 17) 100%); /* IE10 beta */
+	background: linear-gradient(to bottom, rgb(243, 151, 14) 0%,rgb(97, 61, 17) 100%); /* W3C, IE10+, FF16+, Chrome 26+, Opera 12+, Safari 7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3970e', endColorstr='#613d11',GradientType=0 ); /* IE 5.5-8 */
+	background-repeat: repeat-x;
+	background-color: rgb(97, 61, 17); /* fixes white-void issue on firefox along with white-background issue on frontpage 2003 */
+}

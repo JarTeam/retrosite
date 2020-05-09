@@ -1,0 +1,19 @@
+<asx version = "3.0">
+  <title>Animal Crossing Title Theme</title>
+  <entry>
+    <title>Animal Crossing: New Horizons</title>
+    <ref href="acnh.mp3" />
+  </entry>
+  <entry>
+    <title>Animal Crossing: City Folk</title>
+    <ref href="accf.mp3" />
+  </entry>
+  <entry>
+    <title>Animal Crossing (GameCube)</title>
+    <ref href="ac.mp3" />
+  </entry>
+  <entry>
+    <title>Animal Crossing: New Leaf</title>
+    <ref href="acnl.mp3" />
+  </entry>
+</asx>

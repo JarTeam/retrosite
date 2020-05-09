@@ -1,0 +1,110 @@
+/* Frontpage 2003 doesn't show the CSS properly, This is FP2k3's fault. */
+
+body
+{
+	font-family: "Segoe UI", "Open Sans", "Noto Sans", "Roboto", "Ubuntu", "verdana", "arial", "sans-serif"; /* Google fonts are listed so that Android/Chromebook users won't see Serif text. Ubuntu is also listed for Ubuntu users as a last resort/*/
+	background: url(legacy_background.jpg); /* Legacy (unsupported) browsers */
+	background: -moz-linear-gradient(top, rgb(107,79,167) 0%, rgb(50,37,90) 100%); /* FF 3.6-15 */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(107,79,167)), color-stop(100%,rgb(50,37,90))); /* Chrome 2-9, Safari 4-5 */
+	background: -webkit-linear-gradient(top, rgb(107,79,167) 0%,rgb(50,37,90) 100%); /* Chrome 10-25, Safari 5.1-6 */
+	background: -o-linear-gradient(top, rgb(107,79,167) 0%,rgb(50,37,90) 100%); /* Opera 11.10-11.50 */
+	background: -ms-linear-gradient(top, rgb(107,79,167) 0%,rgb(50,37,90) 100%); /* IE10 beta */
+	background: linear-gradient(to bottom, rgb(107,79,167) 0%,rgb(50,37,90) 100%); /* W3C, IE10+, FF16+, Chrome 26+, Opera 12+, Safari 7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b4fa7', endColorstr='#32255a',GradientType=0 ); /* IE 5.5-8 */
+	
+	background-repeat: repeat-x;
+	background-color: rgb(50, 37, 90); /* fixes white-void issue on firefox along with white-background issue on frontpage 2003 */
+	margin-top: 20px;
+	/* margin-left: 20px; */
+	color: white;
+	font-size: 28px;
+}
+
+body.tabInfo
+{
+	background-image: none;
+	background-color: #F4F4F4;
+}
+a
+{
+	color: rgb(19,112,171);
+	font-size: 1em;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: 0;
+	vertical-align: top;
+}
+
+a:link, a:visited
+{
+	color: rgb(5, 159, 255);
+	text-decoration: none;
+	vertical-align: top;
+}
+
+a:hover
+{
+	color: rgb(10, 123, 204);
+	text-decoration: underline;
+}
+
+p
+{
+	font-size: 0.9em;
+}
+h1 /* used for Title */
+{
+	color: #4465A2;
+	font-size: 1.1em;
+	font-weight: normal;
+	vertical-align:bottom;
+	margin-top: 7px;
+	margin-bottom: 4px;
+}
+
+h2 /* used for Heading in Main Body */
+{
+	font-size: 0.9em;
+	font-weight: normal;
+	margin-top: 20px;
+	margin-bottom: 1px;
+}
+
+h3 /* used for text in main body */
+{
+	font-size: 0.9em;
+	font-weight: normal;
+	margin-top: 10px;
+	margin-bottom: 1px;
+}
+
+h4 /* used for task links*/
+{
+	font-size: 0.9em;
+	font-weight: normal;
+	margin-top: 12px;
+	margin-bottom: 1px;
+}
+
+h5 /* used for Heading in InfoBlock */
+{
+	font-size: 1em;
+	font-weight: normal;
+	margin-bottom: 0;
+	margin-top: 1px;
+	color: #575757;
+}
+ul, ol
+{
+	font-size: 0.9em;
+	list-style-position: outside;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	line-height: 1.3em;
+}
+.divider
+{
+	border-bottom: #B6BCC6 1px solid;
+}

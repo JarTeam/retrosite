@@ -1,0 +1,15 @@
+/* Special CSS! */
+
+body
+{
+	background: url(legacy_background_easter.jpg); /* Legacy (Unsupported) browsers */
+	background: -moz-linear-gradient(top, rgb(74, 129, 255) 0%, rgb(175, 218, 227) 100%); /* FF 3.6-15 */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(74, 129, 255)), color-stop(100%,rgb(175, 218, 227))); /* Chrome 2-9, Safari 4-5 */
+	background: -webkit-linear-gradient(top, rgb(74, 129, 255) 0%,rgb(175, 218, 227) 100%); /* Chrome 10-25, Safari 5.1-6 */
+	background: -o-linear-gradient(top, rgb(74, 129, 255) 0%,rgb(175, 218, 227) 100%); /* Opera 11.10-11.50 */
+	background: -ms-linear-gradient(top, rgb(74, 129, 255) 0%,rgb(175, 218, 227) 100%); /* IE10 beta */
+	background: linear-gradient(to bottom, rgb(74, 129, 255) 0%,rgb(175, 218, 227) 100%); /* W3C, IE10+, FF16+, Chrome 26+, Opera 12+, Safari 7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4a81ff', endColorstr='#afdae3',GradientType=0 ); /* IE 5.5-8 */
+	background-repeat: repeat-x;
+	background-color: rgb(175, 218, 227); /* fixes white-void issue on firefox along with white-background issue on frontpage 2003 */
+}

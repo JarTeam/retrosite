@@ -1,0 +1,45 @@
+body {
+    margin-left: 160px;
+    padding: 10px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {padding-top: 15px;}
+	.sidenav a {font-size: 18px;}
+}
+
+.sidenav {
+	height: 100%;
+	width: 160px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #2F3136;
+	overflow-x: hidden;
+	padding-top: 20px;
+	color: white;
+	font-family: "Segoe UI", "Open Sans", "Noto Sans", "Roboto", "Ubuntu", "verdana", "arial", "sans-serif"; /* Google fonts are listed so that Android/Chromebook users won't see Serif text. Ubuntu is also listed for Ubuntu users as a last resort/*/
+}
+  
+.sidenav a {
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	font-size: 15px;
+	color: white;
+	display: block;
+}
+  
+.main a:hover {
+	color: wheat;
+	background-color: #575757;
+}
+
+.sidenav a:active {
+	color: white;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+}

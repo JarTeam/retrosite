@@ -1,0 +1,1 @@
+convert it to a 24x24 ico, i don't want the favicon to be resized in billenar.

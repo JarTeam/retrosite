@@ -1,0 +1,10 @@
+body {
+    background-color: rgb(51, 51, 255);
+    color: rgb(255, 255, 255);
+}
+a:link {
+    color: rgb(13, 151, 255);
+}
+a:visited {
+    color: rgb(51, 204, 255);
+}
