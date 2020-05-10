@@ -2,14 +2,14 @@
     <head>
     <script type="text/javascript">
     function load()
-    {
-    window.location.href = "https://covid2009.neocities.org";
-
-    }
+        {window.location.href = "https://covid2009.neocities.org";} // this makes the page redirect to the real website.
+                                                                   // i don't know why, but this is what i need to use for this to work.
+                                                                  // all else just fails to work out.
     </script>
     </head>
 
     <body onload="load()">
-    <h1>The real covid2009 subsite is hosted on neocities.</h1>
+    <p>The real covid2009 website is hosted on <a href="https://covid2009.neocities.org>neocities.</a></p> 
+     <!-- ^^^ this is the backup html for people with old browsers that don't support javascript ^^^ -->
     </body>
-    </html> 
+    </html>
