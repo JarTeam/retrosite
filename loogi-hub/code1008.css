@@ -53,15 +53,6 @@
 	font-style: normal;
 	font-weight: normal;
 }
-ul
-{
-}
-ul ul
-{
-}
-ul ul ul
-{
-}
 a:link
 {
 	color: rgb(153, 0, 0);
@@ -78,12 +69,22 @@ body
 {
 	background-color: rgb(204, 204, 204);
 	color: rgb(0, 0, 0);
+	font-weight: normal;
+	font-style: normal;
+	font-family: Berlin Sans FB;
+	text-align: none;
+	vertical-align: none;
 }
 table
 {
 	table-border-color-light: rgb(0, 0, 0);
 	table-border-color-dark: rgb(0, 0, 0);
 	border-color: rgb(0, 0, 0);
+	vertical-align: none;
+	font-weight: normal;
+	font-style: normal;
+	font-family: Berlin Sans FB;
+	text-align: none;
 }
 th
 {
@@ -359,7 +360,7 @@ caption
 .ms-calquarterhour
 {
 	vertical-align: top;
-	border-top-width: 0px;
+	border-top-width: 0;
 	border-top-color: inherit;
 	height: 12px;
 	border-top-style: none;
@@ -379,7 +380,7 @@ caption
 }
 .ms-calvspacer
 {
-	width: 0px;
+	width: 0;
 	background-color: red;
 }
 .ms-calweek
@@ -728,17 +729,17 @@ caption
 {
 	background-color: silver;
 	border-right-style: solid;
-	border-bottom-width: 0px;
+	border-bottom-width: 0;
 	border-bottom-color: #9bf;
-	border-left-width: 0px;
+	border-left-width: 0;
 	border-left-color: #9bf;
 	border-bottom-style: solid;
 	border-left-style: solid;
 	border-right-color: #9bf;
-	border-top-width: 0px;
+	border-top-width: 0;
 	border-top-color: #9bf;
 	border-top-style: solid;
-	border-right-width: 0px;
+	border-right-width: 0;
 }
 .ms-italic
 {
@@ -1347,9 +1348,6 @@ caption
 	height: 22px;
 	border-bottom-width: 1px;
 }
-.ms-titlearea
-{
-}
 .ms-titlearealine, .ms-stormeestimated
 {
 	background-color: #ffd275;
@@ -1396,11 +1394,11 @@ caption
 }
 .ms-toolpaneframe
 {
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
 	background-color: #e1ecfc;
-	padding-top: 0px;
+	padding-top: 0;
 }
 .ms-toolpaneheader
 {
@@ -1413,7 +1411,7 @@ caption
 .ms-toolpaneinfo
 {
 	color: white;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 	padding-top: 5px;
 	background-color: #4a658c;
 }
@@ -1644,7 +1642,7 @@ caption
 	width: 16px;
 	vertical-align: top;
 	padding-top: 2px;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 .ms-vb-user
 {
@@ -1695,7 +1693,7 @@ caption
 {
 	vertical-align: top;
 	text-decoration: none;
-	width: 0px;
+	width: 0;
 	color: #808080;
 	font-weight: normal;
 }
@@ -1714,7 +1712,7 @@ caption
 }
 .ms-vh-left-icon-empty
 {
-	width: 0px;
+	width: 0;
 	color: #808080;
 	font-weight: normal;
 	text-decoration: none;
@@ -1735,7 +1733,7 @@ caption
 .ms-vh-right-icon-empty
 {
 	font-weight: normal;
-	width: 0px;
+	width: 0;
 	text-decoration: none;
 	color: #808080;
 }
@@ -1791,7 +1789,7 @@ caption
 }
 .ms-wpborder
 {
-	border-top-width: 0px;
+	border-top-width: 0;
 	border-top-color: #afc9ef;
 	border-left-style: solid;
 	border-top-style: solid;
@@ -1849,9 +1847,6 @@ caption
 	cursor: hand;
 	text-decoration: none;
 	color: #003399;
-}
-.mstheme
-{
 }
 .userbackground
 {
@@ -1931,9 +1926,9 @@ caption
 }
 .usergenericbody
 {
-	padding-right: 0px;
+	padding-right: 0;
 	padding-top: 5px;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 	padding-left: 17px;
 }
 .usergenericbulletitem
@@ -1960,9 +1955,9 @@ caption
 .usersectionbody
 {
 	padding-left: 7px;
-	padding-top: 0px;
+	padding-top: 0;
 	padding-right: 7px;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 	width: 100%;
 }
 .usersectionfooter
@@ -1979,9 +1974,9 @@ caption
 {
 	padding-bottom: 3px;
 	color: #000000;
-	padding-top: 0px;
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-top: 0;
+	padding-left: 0;
+	padding-right: 0;
 	width: 100%;
 }
 .usersectiontitle
@@ -2093,40 +2088,11 @@ a.ms-rtetoolbardis
 {
 	cursor: default;
 }
-body
-{
-	font-weight: normal;
-	font-style: normal;
-	font-family: Berlin Sans FB;
-	text-align: none;
-	vertical-align: none;
-}
 div.ms-titleareaframe
 {
 	border-top-width: 3px;
 	border-top-color: #ffd275;
 	border-top-style: solid;
-}
-h1
-{
-}
-h2
-{
-}
-h3
-{
-}
-h4
-{
-}
-h5
-{
-}
-h6
-{
-}
-hr
-{
 }
 img.ms-button
 {
@@ -2160,14 +2126,6 @@ span.userdata
 {
 	display: none;
 }
-table
-{
-	vertical-align: none;
-	font-weight: normal;
-	font-style: normal;
-	font-family: Berlin Sans FB;
-	text-align: none;
-}
 table.ms-form td
 {
 	width: 100%;
@@ -2199,18 +2157,9 @@ table.ms-toolbar
 	border-bottom-width: 1px;
 	border-bottom-color: #95b7f3;
 }
-td
-{
-}
 td.ms-titleareaframe
 {
 	color: black;
-}
-th
-{
-}
-tr
-{
 }
 tr.ms-imglibselectedrow, tr.ms-highlight
 {
