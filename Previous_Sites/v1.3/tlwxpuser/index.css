@@ -1,0 +1,23 @@
+body {
+ font-family: 'Inconsolata', monospace;
+ background-color: black;
+ background-image: "index_files/giphy2.gif";
+}
+
+#white {
+ color: white;
+ background-color: white;
+}
+
+#black {
+ color: black;
+ background-color: black;
+}
+
+.white {
+ color: white;
+}
+
+.black {
+ color: black;
+}
