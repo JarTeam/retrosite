@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<script language="JavaScript">
+<!--
+//.......................................................................
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0  
+var myWin =window.open(theURL,winName,features); 
+if(myWin.focus){myWin.focus();
+}
+}
+//.......................................................................
+
+function setCookie(name, value, expires, path, domain, secure) {  
+document.cookie = name + "=" + escape(value) + ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +  ((path == null) ? "" : "; path=" + path) +  ((domain == null) ? "" : "; domain=" + domain) +  ((secure == null) ? "" : "; secure");
+}
+//.......................................................................>
+function getCookie(name){  
+var cname = name + "=";  
+var dc = document.cookie;  
+if (dc.length > 0) {    
+
+begin = dc.indexOf(cname);    
+if (begin != -1) {      
+begin += cname.length;      
+end = dc.indexOf(";", begin);      
+if(end == -1) end = dc.length;        
+return unescape(dc.substring(begin, end));    
+}  
+}  
+return null;
+}
+//.......................................................................>
+//.......................................................................>
+
+function checkReg(url,target){
+if (!getCookie('sessionid')) {        
+if(confirm('Please login or register to access this area.\n Click ok to login.')){               
+ setCookie('redirect', url);                
+parent.parent.location="http://www.squaresoft.com/playonline/index2.html";                
+}else{        
+}
+}else{        
+eval("parent.parent.frames[1].location.href='" + url + "';");
+}
+}
+//-->
+</script>
+<TITLE>guide1</TITLE></HEAD><BODY bgcolor="#000000" topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#3,0,0,0" width="800" height="800" border="0">
+  <param name="SRC" value="KH-comp2.swf">
+  <embed src="KH-comp2.swf" pluginspage="http://www.macromedia.com/shockwave/download/" type="application/x-shockwave-flash" width="800" height="800" border="0">
+  </embed> 
+</object> 
+</BODY></HTML>

@@ -1,0 +1,101 @@
+
+<HTML>
+<HEAD>
+<script language="JavaScript">
+
+<!--
+        var screenHeight = screen.availHeight - 30;
+        var screenWidth = screen.availWidth - 10;
+        
+		function popKingdomH(){
+			 window.open('http://www.squaresoft.com/playonline/kingdomhearts/index.html','trailerpop','width='+screenWidth+',height='+screenHeight+',top=0,left=0,scrollable=0,resizable=1');
+         }
+         
+         function popFFO(){
+	var mydoc=window.open('http://www.squaresoft.com/playonline/FFORIGINS/index.html','originspop','width=830,height=600,top=0,left=0,scrollable=0,resizable=1');
+	//var thisdoc = mydoc.document;
+  	//thisdoc.name = 'originspop';
+  	//popDoc = mydoc;
+	//mydoc.scrollBy(screenCenter,0)
+	
+}
+
+
+//-->
+
+<!--
+//.......................................................................
+
+function pop(number){
+
+if (number == 100){
+  if (navigator.platform=="MacPPC"){
+    document.location.href="http://www.squaresoft.com/playonline/kingdomhearts/KH320.rm";
+  }else{
+    window.open('http://www.squaresoft.com/playonline/kingdomhearts/trailer-high.html', 'trailerpop2', 'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=325,height=265' );
+  }
+}
+
+if (number == 101){
+  if (navigator.platform=="MacPPC"){
+    document.location.href="http://www.squaresoft.com/playonline/kingdomhearts/KH240.rm";
+  }else{
+    window.open('http://www.squaresoft.com/playonline/kingdomhearts/trailer-low.html', 'trailerpop2', 'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=250,height=198' );
+  }
+}
+}
+//.......................................................................
+function MM_openBrWindow(theURL,winName,features) { //v2.0  
+var myWin =window.open(theURL,winName,features); 
+if(myWin.focus){myWin.focus();
+}
+}
+//.....................................................................
+
+function setCookie(name, value, expires, path, domain, secure) {  
+document.cookie = name + "=" + escape(value) + ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +  ((path == null) ? "" : "; path=" + path) +  ((domain == null) ? "" : "; domain=" + domain) +  ((secure == null) ? "" : "; secure");
+}
+//.....................................................................
+function getCookie(name){  
+var cname = name + "=";  
+var dc = document.cookie;  
+if (dc.length > 0) {    
+
+begin = dc.indexOf(cname);    
+if (begin != -1) {      
+begin += cname.length;      
+end = dc.indexOf(";", begin);      
+if(end == -1) end = dc.length;        
+return unescape(dc.substring(begin, end));    
+}  
+}  
+return null;
+}
+//.....................................................................
+
+function checkReg(url,target){
+if (!getCookie('sessionid')) {        
+if(confirm('Please login or register to access this area.\n Click ok to login.')){               
+ setCookie('redirect', url);                
+parent.parent.location="http://www.squaresoft.com/playonline/index2.html";                
+}else{        
+}
+}else{        
+eval("parent.parent.frames[1].location.href='" + url + "';");
+}
+}
+//.....................................................................
+function goURL(url){
+parent.parent.frames[1].location.href=url;
+}
+
+//-->
+</script>
+<TITLE>Kingdom Hearts - Eyeblaster Comp</TITLE></HEAD><BODY bgcolor="#000000" topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>
+<div align="left"><TABLE WIDTH="400" BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD VALIGN="TOP"><OBJECT CLASSID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" CODEBASE="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#3,0,0,0" WIDTH="595" HEIGHT="480" BORDER="0"> 
+<PARAM NAME="SRC" VALUE="KH_eyeblast-3-10-03.swf"> <EMBED SRC="KH_eyeblast-3-10-03.swf" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/" TYPE="application/x-shockwave-flash" WIDTH="595" HEIGHT="480" BORDER="0"> 
+</EMBED> </OBJECT></TD><TD WIDTH="50"><OBJECT CLASSID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" CODEBASE="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" WIDTH="179" HEIGHT="541"> 
+<PARAM NAME=movie VALUE="banner1-animated.swf"> <PARAM NAME=quality VALUE=high><PARAM NAME="BGCOLOR" VALUE="#000000"> 
+<EMBED SRC="banner1-animated.swf" QUALITY=high PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" TYPE="application/x-shockwave-flash" WIDTH="179" HEIGHT="541" BGCOLOR="#000000"></EMBED> 
+</OBJECT></TD></TR></TABLE></div>
+</BODY></HTML>

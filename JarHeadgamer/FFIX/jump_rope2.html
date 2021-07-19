@@ -1,0 +1,277 @@
+ <html>
+
+	<HEAD><SCRIPT LANGUAGE=JAVASCRIPT SRC=/js/chss.js></SCRIPT>
+         <script language=javascript src=/js/chss.js></script>
+		<meta http-equiv="content-type" content="text/html;charset=">
+		
+<script language="JavaScript">
+var theMousex = 0;
+var theMousey = 0;
+var Scroll = 0;
+var Drag = 0;
+
+
+
+// BrowserCheck Object
+function BrowserCheck() {
+	var b = navigator.appName
+	if (b=="Netscape") this.b = "ns"
+	else if (b=="Microsoft Internet Explorer") this.b = "ie"
+	else this.b = b
+	this.version = navigator.appVersion
+	this.v = parseInt(this.version)
+	this.ns = (this.b=="ns" && this.v>=4)
+	this.ns4 = (this.b=="ns" && this.v==4)
+	this.ns5 = (this.b=="ns" && this.v==5)
+	this.ie = (this.b=="ie" && this.v>=4)
+	this.ie4 = (this.version.indexOf('MSIE 4')>0)
+	this.ie5 = (this.version.indexOf('MSIE 5')>0)
+	this.min = (this.ns||this.ie)
+}
+is = new BrowserCheck()
+
+
+function initMouseEvents() {
+	//document.onmousedown = mouseDown
+	document.onmousemove = mouseMove
+	//document.onmouseup = mouseUp
+	if (is.ns) document.captureEvents(Event.MOUSEDOWN | Event.MOUSEMOVE | Event.MOUSEUP)
+}
+
+
+
+function mouseMove(e) {
+	theMousex = (is.ns)? e.pageX : event.x+document.body.scrollLeft
+	theMousey = (is.ns)? e.pageY : event.y+document.body.scrollTop
+	
+	}
+
+
+
+
+// overwrite these functions in your html source to do other mouse handling
+//function DynMouseDown(x,y) {return true}
+//function DynMouseUp(x,y) {return true}
+
+
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+
+
+function DynMouseMove(x,y) {return true}
+
+function init() {
+
+initMouseEvents();
+       
+}
+
+
+</script>
+
+<script language="JavaScript">
+<!--
+
+function MM_swapImage() { //v2.0
+  var i,j=0,objStr,obj,swapArray=new Array,oldArray=document.MM_swapImgData;
+  for (i=0; i < (MM_swapImage.arguments.length-2); i+=3) {
+    objStr = MM_swapImage.arguments[(navigator.appName == 'Netscape')?i:i+1];
+    if ((objStr.indexOf('document.layers[')==0 && document.layers==null) ||
+        (objStr.indexOf('document.all[')   ==0 && document.all   ==null))
+      objStr = 'document'+objStr.substring(objStr.lastIndexOf('.'),objStr.length);
+    obj = eval(objStr);
+    if (obj != null) {
+      swapArray[j++] = obj;
+      swapArray[j++] = (oldArray==null || oldArray[j-1]!=obj)?obj.src:oldArray[j];
+      obj.src = MM_swapImage.arguments[i+2];
+  } }
+  document.MM_swapImgData = swapArray; //used for restore
+}
+
+function show(dshow,dname) { //v2.0
+  var i, visStr, args, theObj;
+  
+  
+  args = show.arguments;
+  
+  for (i=0; i<(args.length-2); i+=3) { //with arg triples (objNS,objIE,visStr)
+    visStr   = args[i+2];
+    if (navigator.appName == 'Netscape' && document.layers != null) {
+      theObj = eval(args[i]);
+      if (theObj) {
+      var tempsrc = "images/0010.jpg";
+      //theObj.visibility = visStr;
+      //theObj.left = theMousex + 15;
+      //theObj.top = theMousey;
+      
+      
+      }
+    } else if (document.all != null) { //IE
+      if (visStr == 'show') visStr = 'visible'; //convert vals
+      if (visStr == 'hide') visStr = 'hidden';
+      theObj = eval(args[i+1]);
+      if (theObj) {
+      var tempsrc = "images/0010.jpg";
+      //theObj.style.visibility = visStr;
+      //theObj.style.left = theMousex + 15;
+      //theObj.style.top = theMousey;
+      
+      }
+  } }
+}
+
+
+function swapper() {
+//MM_swapImage('document.overL','document.overL','images/0010.jpg','#972883660766');
+}
+
+function MM_preloadImages() { //v2.0
+  if (document.images) {
+    var imgFiles = MM_preloadImages.arguments;
+    if (document.preloadArray==null) document.preloadArray = new Array();
+    var i = document.preloadArray.length;
+    with (document) for (var j=0; j<imgFiles.length; j++) if (imgFiles[j].charAt(0)!="#"){
+      preloadArray[i] = new Image;
+      preloadArray[i++].src = imgFiles[j];
+  } }
+}
+
+function MM_swapImgRestore() { //v2.0
+  if (document.MM_swapImgData != null)
+    for (var i=0; i<(document.MM_swapImgData.length-1); i+=2)
+      document.MM_swapImgData[i].src = document.MM_swapImgData[i+1];
+}
+//-->
+</script>
+
+
+
+
+
+</head>
+
+	
+<body background="images/c-bg.gif" text="white" link="#CC9933" vlink="#CC9933" alink="white" bgcolor="white" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" >
+
+<table width="560" border="0" cellpadding="0" cellspacing="0" vspace="0" hspace="0">
+  <tr> 
+    <td valign="top" width="544" colspan="2" bgcolor="#000000"><font face="Arial, Helvetica, sans-serif" size="2"><i><a href="#">SIDEQUESTS</a> 
+      &gt;</i></font> <font face="Arial, Helvetica, sans-serif" size="2"><i><a href="#">MINIGAMES</a></i></font><font size="10" color="#CC9933" face="Times New Roman, Times, serif"><b><i> 
+      <font size="6">Jump Rope</font> </i></b></font> 
+      <div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><a href="alexandria.html" target="_top">show 
+        board</a> | <a href="#">hide board</a>&nbsp;</font></div>
+    </td>
+    <td bgcolor="#FFFFFF" width="16"><img src="images/spacer.gif" width="15" height="1"></td>
+  </tr>
+</table>
+<table width="560" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    
+    <td width="440" valign="top" colspan="2">
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td> 
+            <p><font color="#CC9933"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+              The first mini-game encountered during FINAL FANTASY IX is the jump 
+              rope mini-game in Alexandria. To participate, have Vivi approach 
+              the little girls jumping rope to the left of the ticket booth. Once 
+              he has done so, the girls offer to let him join. This is a good 
+              opportunity to earn some Gil, get extremely rare cards, and obtain 
+              a Key Item very early in the game. After Vivi moves over the rope, 
+              press the Circle button to begin the game and press the X button 
+              again to jump each time a "!" appears over Vivi's head.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a name=0591 href="#" onClick="show('document.layers[\'OverlayImage\']','document.all[\'OverlayImage\']','show');MM_swapImage('document.layers[\'OverlayImage\'].document.overL','document.overL','file:///Zip%20100/FFIX-online-site/images/0591.jpg','#972903396100')" onMouseOut="show('document.layers[\'OverlayImage\']','document.all[\'OverlayImage\']','hide');MM_swapImgRestore()"><img src="images/s001.jpg" width="90" height="69" border="1" name="thumbs001" align="right"></a></font></font></p>
+            <p class="BODY1"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Jumping 
+              rope is fairly easy, but don't underestimate the game! The speed 
+              at which the rope moves increases at 20 jumps, increases again at 
+              50 jumps, and then once again at 100 jumps. At 200 jumps, the speed 
+              subsides a bit, but the timing is different. After 300 jumps, the 
+              speed and timing of the jumps remain the same. </font></p>
+            <p class="BODY1"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+              can play the jump rope mini-game at the beginning of Disc 1. At 
+              the beginning of Disc 3, the jump rope girls move their game to 
+              the moogles' bell tower. You can only play during Disc 3 and 4 if 
+              you have Eiko or Vivi in your party. <font color="#CC9933"><a name=0591 href="#" onClick="show('document.layers[\'OverlayImage\']','document.all[\'OverlayImage\']','show');MM_swapImage('document.layers[\'OverlayImage\'].document.overL','document.overL','file:///Zip%20100/FFIX-online-site/images/0591.jpg','#972903396100')" onMouseOut="show('document.layers[\'OverlayImage\']','document.all[\'OverlayImage\']','hide');MM_swapImgRestore()"><img src="images/s002a.jpg" width="90" height="67" border="1" name="thumbs002" align="left"></a></font></font></p>
+            <p class="BODY1"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+              can only win each reward one time. You will not receive the same 
+              reward again if you start over and match the number of jumps you 
+              achieved previously.<br>
+              </font><font face="Verdana"><br>
+              </font></p>
+            <p class="BODY1">&nbsp;</p>
+            <table width="90%" border="4" cellspacing="0" cellpadding="3" align="center" bordercolor="#FFFFFF">
+              <tr> 
+                <td colspan="2" bgcolor="0099ff"><font face="Arial, Helvetica, sans-serif"><b><i><img src="images/playOnlineIcon.gif" width="40" height="35" align="left"><a name="JUMPR3"></a>SPECIAL 
+                  ITEMS <br>
+                  <font size="2">KEYWORD: JUMPR3 </font></i></b></font></td>
+              </tr>
+            </table>
+            <table border cellspacing=0 cellpadding=5 width=90% align="center" bgcolor="#000000" bordercolor="#FFFFFF">
+              <tr bgcolor="#000033"> 
+                <td width="28%" valign="TOP"> 
+                  <p><font size="2" face="Verdana"><b># of Jumps</b> </font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font size="2" face="Verdana"><b>Reward</b> </font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">20 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">10 Gil</font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">50 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">Cactuar Card</font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">100 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">Genji Card</font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">200 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">Alexandria Card</font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">300 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">Tiger Racket Card</font> 
+                </td>
+              </tr>
+              <tr> 
+                <td width="28%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">1000 Jumps</font> 
+                </td>
+                <td width="72%" valign="TOP"> 
+                  <p><font face="Verdana" size="2">King of Jump Rope (Key Item)</font> 
+                </td>
+              </tr>
+            </table>
+            <p class="BODY1">&nbsp;</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="15" bgcolor="#FFFFFF"><img src="images/spacer.gif" width="15" height="1"></td>
+  </tr>
+</table>
+</body>
+
+
+</html>

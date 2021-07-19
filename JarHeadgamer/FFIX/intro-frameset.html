@@ -1,0 +1,59 @@
+<html>
+<HEAD><SCRIPT LANGUAGE=JAVASCRIPT SRC=/js/chss.js></SCRIPT>
+
+<script language="JavaScript">
+<!--
+
+function delCookie (name,path,domain) {
+  if (getCookie(name)) {
+    document.cookie = name + "=" +
+    ((path == null) ? "" : "; path=" + path) +
+    ((domain == null) ? "" : "; domain=" + domain) +
+    "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+  }
+}
+
+function getCookie(name){
+  var cname = name + "=";               
+  var dc = document.cookie;             
+  if (dc.length > 0) {              
+    begin = dc.indexOf(cname);       
+    if (begin != -1) {           
+      begin += cname.length;       
+      end = dc.indexOf(";", begin);
+      if(end == -1) end = dc.length;
+        return unescape(dc.substring(begin, end));
+    } 
+  }
+  return null;
+}
+
+//-->
+</script>
+
+<title>Play Online.com</title>
+<meta name="keywords" content="Play Online.com">
+<meta name="description" content="Play Online.com">
+</head>
+
+
+<script language="JavaScript">
+<!--
+	var c = getCookie('redirect');
+	var set = getCookie('set');
+	document.write('<frameset cols="75,*" border="0" frameborder="NO" framespacing="0">\n');
+	document.write('<frame name="navi" src="navi.html" scrolling="no" marginwidth="0" marginheight="0" frameborder="0">\n');
+	
+	if(c){
+		document.write('<frame name="main" src="' + c + '"scrolling="auto" marginwidth="0" marginheight="0" frameborder="0">\n');
+	}else{
+		document.write('<frame name="main" src="intro-frameset1.html" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0">\n');
+	}
+  	delCookie('redirect');
+  	document.write('</frameset><noframes></noframes>\n');
+	
+
+ //-->
+</script>
+ 
+  

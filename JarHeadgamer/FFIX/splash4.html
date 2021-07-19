@@ -1,0 +1,91 @@
+<html>
+<HEAD><SCRIPT LANGUAGE=JAVASCRIPT SRC=/js/chss.js></SCRIPT>
+<meta http-equiv="content-type" content="text/html;charset=">
+
+
+<script language=javascript>
+<!--
+
+alert(parent.frames['bottom'].location.href);
+
+function doStart(url) {
+document.write('<html><HEAD><SCRIPT LANGUAGE=JAVASCRIPT SRC=/js/chss.js></SCRIPT><title>Untitled Document</title>');
+document.write('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">');
+document.write('</head>');
+document.write('<frameset cols="130,*" rows="*" border="0" framespacing="0" frameborder="NO"> ');
+document.write('<frame src="nav1.html" marginwidth="0" marginheight="0" name="" scrolling="NO" noresize frameborder="NO">');
+document.write('<frame src=');
+document.write(url);
+document.write(' frameborder="NO" noresize scrolling="AUTO" marginwidth="0" marginheight="0" name="contents">');
+document.write('</frameset><noframes><body bgcolor="#FFFFFF">');
+document.write('</body></noframes></html>');
+document.close();
+parent.frames['bottom'].location.href = "keyword.html";
+}
+
+function doLaunch(url) {
+var theURL = url;
+var winName = "map";
+var features = "width=600,height=400";
+var myWin = window.open(theURL,winName,features);
+if(window.focus){myWin.focus();}
+}
+
+function doSearch(){
+
+var doS = document.pol.keyword.value;
+if(doS.length < 2){
+alert('Please enter a Keyword'); 
+return;
+}
+doS = doS.toUpperCase();
+document.pol.keyword.value = doS;
+document.pol.submit();
+}
+
+//--> 
+</script>
+
+
+		
+<title>PlayOnline.com</title></head>
+<body background="images/c-bg.gif" text="white" link="white" vlink="white" alink="white" bgcolor="white" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+
+
+<div align="left">
+  <p><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#3,0,0,0" width="572" height="325" border="0" vspace="0" hspace="0" align="top">
+      <param name="SRC" value="splash.swf">
+      <param name="SCALE" value="exactfit">
+      <embed src="splash.swf" pluginspage="http://www.macromedia.com/shockwave/download/" type="application/x-shockwave-flash" width="572" height="325" border="0" vspace="0" hspace="0" align="top" scale="exactfit">
+      </embed> 
+    </object> </p>
+  <form name=pol method=post action="/cgi-bin/throw2.pl" onSubmit="doSearch(); return false">
+    <table width="572" border="0" cellpadding="0" cellspacing="0" vspace="0" hspace="0">
+      <tr> 
+        <td width="57%" valign="top"> 
+          <div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF3300"><b>Key 
+            Word not found, please try again</b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">.<br>
+            Type in the KEYWORD found in the <br>
+            OFFICIAL FINAL FANTASY IX print strategy guide.</font> <font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b></b></font></div>
+        </td>
+        <td width="31%" valign="bottom"> 
+          <div align="center"> <font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font color="#FFFFFF" size="2">Please 
+            enter in Keyword:</font></b></font>
+<input type="text" name="keyword">
+          </div>
+        </td>
+        <td width="12%"> 
+          <div align="center"><a href="javascript:doSearch();"><img src="images/playOnlineIcon.gif" width="40" height="35" border=0>
+          <br>
+            <font face="Arial, Helvetica, sans-serif" size="1">PlayOnline.com</font></a></div>
+        </td>
+      </tr>
+    </table>
+    <br>
+  </form>
+
+  
+</div>
+</body>
+
+</html>

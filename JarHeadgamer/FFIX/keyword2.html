@@ -1,0 +1,83 @@
+<html>
+<HEAD><SCRIPT LANGUAGE=JAVASCRIPT SRC=/js/chss.js></SCRIPT>
+
+
+<script language="JavaScript">
+
+function doSearch(){
+
+
+
+var doS = document.pol.keyword.value;
+if(doS.length < 2){
+alert('Please enter a Keyword'); 
+return;
+}
+doS = doS.toUpperCase();
+document.pol.keyword.value = doS;
+if(doS == "GAIA"){
+var theURL = "http://www.finalfantasy.com/thespiritswithin/";
+var winName = "map";
+var features = "width=700,height=400";
+var myWin = window.open(theURL,winName,features);
+if(window.focus){myWin.focus();}
+}else{
+
+
+
+
+
+document.pol.target = "guide";
+
+
+document.pol.submit();
+}
+}
+
+</script>
+ 						
+<title>PlayOnline.com</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+ <form name=pol method=post action="http://www.squaresoft.com/cgi-bin/throw.pl" onSubmit="doSearch();return false" target=contents>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" vspace="0" hspace="0">
+  <tr valign="top">
+      <td width="36%"> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Type 
+          in the KEYWORD found in the OFFICIAL FINAL FANTASY IX print strategy 
+          guide.</font></div>
+      </td>
+      <td width="64%" nowrap> 
+        <div align="left"></div>
+        <table width="250" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="156"> 
+              <table border="0" cellpadding="0" cellspacing="0" hspace="10">
+                <tr> 
+                  <td valign="middle" width="32%" rowspan="2"> 
+                    <div align="right"></div>
+                  </td>
+                  <td valign="middle" width="68%" nowrap> <font face="Verdana, Arial, Helvetica, sans-serif" size="1"><b><font color="#000033" size="2">Please 
+                    enter in Keyword</font><font color="#000033">:</font></b></font></td>
+                </tr>
+                <tr> 
+                  <td valign="middle" bgcolor="#000033"> 
+              		<input type="hidden" name="loc">
+                    <input type="text" name="keyword" size="15">
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="94"><a href="javascript:doSearch();"><img src="images/playicon.gif" width="38" height="37" border=0></a></td>
+          </tr>
+        </table>
+        
+      </td>
+</tr>
+</table>
+ </form>
+</body>
+</html>
+

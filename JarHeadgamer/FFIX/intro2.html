@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+
+<script language="JavaScript">
+<!--
+
+
+//.......................................................................>
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  var myWin =window.open(theURL,winName,features); if(myWin.focus){myWin.focus();}
+}
+
+//.......................................................................>
+function setCookie(name, value, expires, path, domain, secure) {
+  document.cookie = name + "=" + escape(value) + 
+  ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
+  ((path == null) ? "" : "; path=" + path) +
+  ((domain == null) ? "" : "; domain=" + domain) +
+  ((secure == null) ? "" : "; secure");
+}
+
+//.......................................................................>
+function getCookie(name){
+  var cname = name + "=";               
+  var dc = document.cookie;             
+  if (dc.length > 0) {              
+    begin = dc.indexOf(cname);       
+    if (begin != -1) {           
+      begin += cname.length;       
+      end = dc.indexOf(";", begin);
+      if(end == -1) end = dc.length;
+        return unescape(dc.substring(begin, end));
+    } 
+  }
+  return null;
+}
+//.......................................................................>
+
+
+//.......................................................................>
+function checkReg(url,target){
+if (!getCookie('sessionid')) {
+	if(confirm('Please login or register to access this area.\n Click ok to login.')){
+		setCookie('redirect', url);
+		parent.parent.location="http://www.squaresoft.com/playonline/index.html";
+		}else{
+	}
+}else{
+	eval("parent.frames[1].location.href='" + url + "';");
+}
+}
+
+
+//-->
+</script>
+
+<TITLE>guide1</TITLE>
+</HEAD>
+<BODY bgcolor="#000000" topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#3,0,0,0" width="595" height="323">
+        <param name="SRC" value="index.swf">
+        <embed src="index.swf" pluginspage="http://www.macromedia.com/shockwave/download/" type="application/x-shockwave-flash" width="595" height="323">
+        </embed> 
+      </object></td>
+  </tr>
+</table>
+      
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFCC33">last 
+  update: October 26, 2001</font><br>
+  <map name="map1">
+    <area shape="rect" coords="300,162,494,243" href="../strategy-index.html" target="_top">
+    <area shape="rect" coords="300,75,478,153" href="../guide/guide-index1.html" target="_top">
+  </map> <map name="map2">
+    <area shape="rect" coords="27,196,108,226" href="../index.html" target="_top">
+    <area shape="rect" coords="267,239,436,264" href="../strategy-index.html" target="_top">
+    <area shape="rect" coords="286,53,468,88" href="../guide/guide-index1.html" target="_top">
+  </map> </p>
+<table width="595" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+      <div align="right"><a href="http://www.tridian.com/cthe/finalfantasy/" target="new"><img src="../../FFmovie_link/ff_cthe_137x64_2.gif" width="137" height="64" border="0"></a></div>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</BODY>
+</HTML>
