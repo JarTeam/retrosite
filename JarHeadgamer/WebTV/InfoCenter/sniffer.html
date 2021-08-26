@@ -1,0 +1,37 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Detecting WebTV Boxes</title>
+</head>
+
+<body bgcolor="#000000" text="#FFFFFF" link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF">
+<center>
+<p><font face="Arial Black" size="5"><a href="../411.htm">JarHead's WebTV Information Center</a></font></p>
+<p><font face="Arial" size="4">Detecting WebTV Boxes</font></p>
+</center>
+<p>&nbsp;</p>
+<p><font face="Arial" size="4">Let's say you've made a WebTV optimized version 
+of your website, and now you'd like to automatically redirect WebTV users to 
+that site. I'll show you how it can be done very easily with some JavaScript.</font></p>
+<p>&nbsp;</p>
+<p><font face="Arial" size="4">We're just going to use a very simple JS browser 
+sniffer for this. Just add the following code to your page, and modify it to 
+suite your needs.</font></p>
+<center><p><i><font face="Arial">&lt;SCRIPT&gt;&lt;!--<br>
+if(navigator.appName.indexOf(&quot;WebTV&quot;) != -1)<br>
+window.location.replace(&quot;index-wtv.html&quot;);<br>
+&lt;/SCRIPT&gt;</font></i></p></center>
+<p><font face="Arial" size="4">If you also have a Netscape Navigator sniffer in 
+place, it would be a good idea to put the WebTV sniffer<i> before</i> the 
+Netscape sniffer. This is because a bug in some WebTV client versions make a 
+check for Netscape return &quot;True&quot;. </font></p>
+<center>
+<font face="Arial" size="4">
+<p>Enjoy!</a></a></p>
+</center>
+
+</body>
+
+</html>
