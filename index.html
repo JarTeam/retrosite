@@ -21,16 +21,25 @@ o\:*         { behavior: url(#default#VML) }
 </head>
 <script>
 	var midis = [["Come-on-Eileen.mid", "Come On Eileen"], ["bluespheres.mid", "Blue Spheres"], ["cum_on_feel_the_noise.mid", "Cum On Feel the Noize"], ["dance_the_night_away.mid", "Dance The Night Away"], ["DAYTONA.MID", "Sky High"], ["Daytona_USA_-_The_King_of_Speed.mid", "The King Of Speed"], ["everybody-loves-you-now.mid", "Everybody Loves You Now"], ["foreigner-cold-as-ice.mid", "Cold As Ice"], ["gba_skygarden.mid", "Sky Garden"], ["HELP.MID", "Help!"], ["HitchARide.mid", "Hitch A Ride"], ["holidayroad.mid", "Holiday Road"], ["Invisible_Touch.mid", "Invisible Touch"], ["JustCantGetEnough.mid", "Just Can't Get Enough"], ["Lets_Go_Away-Intermediate_Track.mid", "Let's Go Away"], ["LivingonaPrayer.mid", "Livin' On A Prayer"], ["maniac.mid", "Maniac"], ["MoreThanAFeeling.mid", "More Than A Feeling"], ["Nobodys_Hero.mid", "Nobody's Hero"], ["99-Luftballons.mid", "99 Luftballons"], ["PieceofMind.mid", "Peace of Mind"], ["red-light-spells-danger.mid", "Red Light Spells Danger"], ["Nur_getraeumt.mid", "Nur geträumt"], ["SMSJBIOS.mid", "SMS BIOS"], ["summer69.mid", "Summer Of '69"], ["the-four-seasons-oh-what-a-night.mid", "December, 1963 (Oh What A Night!)"], ["uptowngirl.mid", "Uptown Girl"]]
-	
+	var midititle = ""
 	function pickMidi() {
 		var midi = midis[Math.floor(Math.random()*midis.length)];
-		document.getElementById('bgsound').src="MIDI/"+midi[0]
-		document.getElementById('nowplaying').innerHTML=midi[1]
-		document.getElementById('mididown').href="MIDI/"+midi[0]
+		if (navigator.appName.indexOf("WebTV") != -1) {
+			document.bgsound.src="MIDI/"+midi[0]
+			midititle = midi[1]
+		} else {
+			document.getElementById('bgsound').src="MIDI/"+midi[0]
+			document.getElementById('nowplaying').innerHTML=midi[1]
+			document.getElementById('mididown').href="MIDI/"+midi[0]
+		}
+	}
+	
+	function nowPlaying() {
+		alert("Now Playing:\n" + midititle)
 	}
 </script>
-<body bgcolor="#0033CC" link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" text="#FFFFFF" onload="pickMidi()"><center>
-<table border="2" cellpadding="0" cellspacing="0" width="640" height="454">
+<body bgcolor="#0033CC" link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" text="#FFFFFF" onload="pickMidi()" background="bg.gif"><center>
+<table border="2" cellpadding="0" cellspacing="0" width="640" height="454" bgcolor="#000080">
 	<!-- MSTableType="layout" -->
 	<tr>
 		<td valign="top" colspan="2" height="62">
@@ -75,7 +84,7 @@ src="index_files/image001.gif" alt="JarHead's Website On The Website" v:shapes="
 		<td valign="top" rowspan="2" width="111">
 		<!-- MSCellType="NavBody" -->
 		<font face="Arial" size="4">Now Playing: </font>
-		<font face="Arial"> <i><a href="MIDI/index.html" id="mididown"><span id="nowplaying">nothin?</span></a></i></font>
+		<font face="Arial"> <i><a href="javascript:nowPlaying()" id="mididown"><span id="nowplaying">Click Me!</span></a></i></font>
 		<p align="center">
 		<img border="0" src="Buttons/ie_animated.gif" width="88" height="31"></p>
 		<p><font face="Arial" size="4">Socials:</font>
