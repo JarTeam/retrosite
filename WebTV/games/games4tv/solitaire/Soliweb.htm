@@ -1,0 +1,372 @@
+<html><head><title>SOLITAIRE</title>
+<script language="Javascript">
+<!--
+
+	cards = new Array(52)
+	for(q=0;q<52;q++) {cards[q] = new Image(); cards[q].src = "cards/"+q+".gif"}
+	tips = new Array(26)
+	for(q=0;q<26;q++) {tips[q] = new Image(); tips[q].src = "cards/x"+q+".gif"}
+	back = new Image(); back.src = "logo_net4tv_solitaire.gif"
+	blank = new Image(); blank.src = "blank.gif"
+	xxx = new Image(); xxx.src = "x.gif"
+	win = new Image(); win.src = "win.gif"
+
+	field = new Array(14)
+		field[0] = new Array(52)
+		field[1] = new Array(24)
+		field[2] = new Array(13)
+		field[3] = new Array(13)
+		field[4] = new Array(13)
+		field[5] = new Array(13)
+		field[6] = new Array(13)
+		field[7] = new Array(13)
+		field[8] = new Array(14)
+		field[9] = new Array(15)
+		field[10] = new Array(16)
+		field[11] = new Array(17)
+		field[12] = new Array(18)
+		field[13] = new Array(19)
+
+	mark = new Array(14)
+	edges = new Array(7)
+
+	on = setTimeout("flashcard()",100000)
+	var card
+	var suit
+	var rank
+	var source = 0
+	var blink = 0
+	var good = 0
+	var winner = 0
+
+	function shuffle() {
+
+		for(q=0;q<14;q++) mark[q] = -1
+		for(q=0;q<7;q++) {edges[q] = -1; pile = -1}
+		for(q=0;q<13;q++) field[2][q] = -1
+		clearTimeout(on)
+		mark[0] = 51
+		source=0
+
+		for(q=0;q<52;q++) field[0][q] = q
+
+		for(q=0;q<52;q++) {
+			var temp = field[0][q]
+			var rand = Math.floor(51*Math.random())
+			field[0][q] = field[0][rand]
+			field[0][rand] = temp
+			}
+
+		for(r=7;r<84;r+=13) {
+			for(q=0;q<12;q++) {
+				document.images[r+q].src = xxx.src
+				}
+			}
+
+		for(q=0;q<7;q++) {
+			for(r=7;r<14;r++) {
+				if(mark[r] < r-7) {
+					mark[r]++
+					field[r][mark[r]] = field[0][mark[0]]
+					mark[0]--
+
+					}
+				}
+			}
+		}
+
+	function display() {
+		if(mark[0]<0) document.images[92].src = blank.src
+		else document.images[92].src = back.src
+
+
+		if(mark[1]<0) document.images[93].src = blank.src
+		else document.images[93].src =  cards[field[1][mark[1]]].src
+
+		for(q=3;q<7;q++) {
+			if(mark[q]<0) document.images[q+92].src = blank.src
+			else document.images[q+92].src = cards[field[q][mark[q]]].src
+			}
+
+		for(q=7;q<14;q++) {
+			if(source==q) {
+				if(mark[q]<0) document.images[((q-7)*13)+13].src = blank.src
+				else if(edges[q-7]<0) document.images[((q-7)*13)+13].src = back.src
+				else document.images[((q-7)*13)+13].src = cards[field[q][mark[q]]].src
+				}
+			else {
+				if(mark[q]<0) document.images[((q-7)*13)+13].src = blank.src
+				else document.images[((q-7)*13)+13].src = cards[field[q][mark[q]]].src
+				}
+			}
+
+		for(q=0;q<7;q++) {
+			for(r=0;r<12;r++) {
+				if(edges[q]<(11-r)) document.images[((q*13)+1)+r].src = xxx.src
+				else {
+					read(field[q+7][mark[q+7]-(12-r)])
+					if(rank>0) {
+						if(suit>1) rank = rank+13
+						document.images[((q*13)+1)+(r)].src = tips[rank].src
+						}
+					}
+				}
+			}
+		}
+
+	function flashcard() {
+		if(field[2][blink]<0) {
+			document.images[94].src = blank.src
+			blink = 0
+			}
+		else {
+			document.images[94].src = cards[field[2][blink]].src
+			blink++
+			}
+		if(winner>0) {
+			if(winner==1) {document.images[0].src = win.src; winner++}
+			else {document.images[0].src = xxx.src; winner--}
+			}
+		on = setTimeout("flashcard()",500)
+		}
+
+	function deal() {
+		if(field[2][0]<0) {
+			if(mark[0]>-1) {
+				for(q=0;q<3;q++) {
+					mark[1]++
+					field[1][mark[1]] = field[0][mark[0]]
+					mark[0]--
+					if(mark[0]==-1) break
+					}
+				}
+			else {
+				if(mark[1]>-1) {
+					for(q=0;q<mark[1]+1;q++) field[0][q] = field[1][mark[1]-q]
+					mark[0] = mark[1]
+					mark[1] = -1
+					}
+				}
+			display()
+			}
+		}
+
+	function read(r) {
+		card = r
+		suit = Math.floor(card/13)
+		rank = card-(13*suit)
+		return card
+		}
+
+	function name(u,v) {
+		read(u)
+		if(rank==v)	return true
+		else return false
+		}
+
+	function home(u,v) {
+		read(u)
+		s1 = suit
+		r1 = rank
+		read(v)
+		if(s1==suit & r1==rank+1) return true
+		else return false
+		}
+
+	function sethome(s) {
+		mark[s]++
+		field[s][mark[s]] = field[2][0]
+		clrhand()
+		}
+
+	function stack(u,v) {
+		read(u)
+		s1 = suit
+		r1 = rank
+		read(v)
+		if(s1>1 & suit>1) return false
+		else if(s1<2 & suit<2) return false
+		else if(r1!=rank-1) return false
+		else return true
+		}
+
+	function settile(s,t) {
+		mark[s]++
+		field[s][mark[s]] = field[2][t]
+		if(mark[s]>0) edges[s-7]++
+		good = 1
+		}
+
+	function under(u) {
+		if(mark[u]>0) edges[u-7]++
+		}
+
+	function clrunder(u) {
+		if(edges[u-7]>-1) edges[u-7]--
+		}
+
+	function clrhand() {
+		for(q=0;q<13;q++) field[2][q] = -1
+		mark[2] = -1
+		source = 0
+		good = 0
+		checkwin()
+		display()
+		}
+
+	function checkwin() {
+		if(mark[3]==12 & mark[4]==12 & mark[5]==12 & mark[6]==12) {
+			winner=1
+			document.embeds[0].play()
+			}
+		}
+
+
+
+	function undo() {
+		if(source<7) drop(source)
+		else {
+			if(edges[source-7]<0) {
+				for(q=0;q<mark[2]+1;q++) settile(source,q)
+				edges[source-7] = mark[2]-1
+				}
+			else for(q=0;q<mark[2]+1;q++) settile(source,q)
+			}
+		clrhand()
+		}
+
+	function pick(p) {
+		if(mark[2]<0) take(p)
+		else drop(p)
+		}
+
+	function take(t) {
+		if(t == 1) {
+			if(mark[1]>-1 & source==0) {
+				mark[2]++
+				field[2][mark[2]] = field[1][mark[1]]
+				mark[1]--
+				source = 1
+				}
+			}
+		else if(mark[t]>-1) {
+				mark[2]++
+				field[2][mark[2]] = field[t][mark[t]]
+				mark[t]--
+				if(edges[t-7]>-1) edges[t-7]--
+				source = t
+				}
+		display()
+		}
+
+	function drop(d) {
+		if(d==1) {
+			mark[1]++
+			field[1][mark[1]] = field[2][mark[2]]
+			mark[2]--
+			}
+		else if(d > 2 & d < 7) {
+			if(mark[d]<0 & name(field[2][0],0)) sethome(d)
+			else if(mark[d]>-1 && home(field[2][0],field[d][mark[d]])) sethome(d)
+			}
+		else if(d > 6) {
+			for(j=0;j<mark[2]+1;j++) {
+				if(mark[d]<0 & name(field[2][j],12)) settile(d,j)
+				else if(mark[d]>-1 && stack(field[2][j],field[d][mark[d]])) settile(d,j)
+				}
+			if(good>0) clrhand()
+			}
+		}
+
+	function sets(s) {
+		if(source==0) {
+			v = Math.floor(s/12)
+			w = s - (12*v)
+			x = 13-w
+			y = x-1
+			if(edges[v]>10-w) {
+				v += 7
+				for(j=y;j>-1;j--) {
+					field[2][j] = field[v][mark[v]]
+					mark[v]--
+					if(edges[v-7]>-1) edges[v-7]--
+					}
+				mark[2] = y
+				source = v
+				display()
+				}
+			}
+		}
+
+	function play() {
+		shuffle()
+		display()
+		flashcard()
+		}
+
+
+//-->
+</script>
+</head>
+
+<body background="bg3.gif" fontsize="medium" onload="play()">
+
+	<script language="Javascript">
+	<!--
+
+		document.write('<TABLE WIDTH=500 NAME="table" CELLSPACING=0 CELLPADDING=0 BORDER=0>')
+
+		document.write('<TR><TD COLSPAN=2 ALIGN=center VALIGN=middle HEIGHT=30>')
+		document.write('<A HREF="index.htm"><FONT SIZE=1 COLOR=226644 FACE="Times"><B>INSTRUCTIONS</B></FONT><A></TD>')
+		document.write('<TD COLSPAN=3 ALIGN=center VALIGN=top HEIGHT=30>')
+		document.write('<A HREF="Javascript:play()"><IMG SRC="x.gif" WIDTH=240 HEIGHT=30 ALIGN=top BORDER=0></A></TD>')
+		document.write('<TD COLSPAN=2 ALIGN=right VALIGN=top HEIGHT=30>')
+		document.write('<A HREF="http://net4tv.com/"><FONT SIZE=2 COLOR=226644 FACE="Times"><B>NET4TV</B></FONT><A><BR>')
+		document.write('<A HREF="http://Net4TV.com/net4tv/games/"><FONT SIZE=2 COLOR=226644 FACE="Times"><B>GAME CENTER<A>')
+		document.write('</TD></TR>')
+		document.write('')
+
+
+ 		document.write('<TR>')
+
+		p = 0
+		for(r=7;r<14;r++) {
+		document.write('<TD VALIGN=top HEIGHT=220>')
+
+		for(q=p;q<p+12;q++) {
+			document.write('<A HREF="Javascript:sets('+q+')"><IMG SRC="x.gif" WIDTH=71 HEIGHT=10 BORDER=0></A><BR>')
+			}
+			p = q
+
+		document.write('<A HREF="Javascript:pick('+r+')"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A>')
+		document.write('</TD>')
+		}
+
+		document.write('</TR>')
+		with(document) {
+ 			write('<TR>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:deal()" selected><IMG SRC="logo_net4tv_solitaire.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:take(1)"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:undo()"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:drop(3)"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:drop(4)"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:drop(5)"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('<TD VALIGN=top HEIGHT=90><A HREF="Javascript:drop(6)"><IMG SRC="blank.gif" WIDTH=71 HEIGHT=96 BORDER=0></A></TD>')
+ 			write('</TR>')
+ 			}
+
+
+
+		document.write('</TABLE>')
+
+
+//-->
+</script>
+
+<embed src="fan2.mid" hidden="true" autostart="false">
+
+
+
+
+
+</body></html>

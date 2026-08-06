@@ -1,0 +1,1321 @@
+<html><head>
+
+<title>Net4TV Pacman!</title>
+
+<!-- (c)2000 VBScript / CommuWeb Networks. //-->
+
+	<style>
+
+<!--
+
+	a { text-decoration:none; }
+
+	body, input, td, form { font-family:Arial; }
+
+	input { border:none; color:white; background:#000066; }
+
+//-->
+
+	</style>
+
+	<script>
+
+<!--
+
+var webtv = 0;
+
+var browse = 0;
+
+if (navigator.appName.toLowerCase().indexOf('webtv') != -1) {
+	webtv = 1;
+	browse = 'wtv';
+}
+
+else if (navigator.appName.toLowerCase().indexOf('netscape') != -1) {
+	browse = 'ns';
+}
+
+var cook = document.cookie.split('; ');
+var now  = new Date();
+
+function getCookie(cookname) {
+	for (var i=0; i<cook.length; i++) {
+		chip = cook[i].split('=');
+		if (chip[0] == cookname) {
+			return unescape(chip[1]);
+		}
+	}
+	return 10000;
+}
+
+function setCookie(cookname, cookval) {
+	var exp  = new Date(now.getTime() + 365*24*60*60*1000);
+	if (cookval != null && cookval != '') {
+		document.cookie = cookname + '=' + escape(cookval) + '; expires = ' + exp.toGMTString();
+		cook = document.cookie.split('; ');
+	}
+}
+
+function getAll() {
+	highscore = getCookie('vbhigh');
+	set_high(highscore);
+}
+
+// Check for WebTV onkeypress support
+var onkeypress_enabled = 0;
+if (browse == 'wtv') {
+	var check = event.keyCode;
+	if (check != null && check != undefined) {
+		onkeypress_enabled = 1;
+	}
+}
+
+window.document.onkeypress = key_press;
+
+if (document.layers) {
+	document.captureEvents(Event.KEYPRESS);
+}
+
+window.onerror = quit;
+
+function quit() {
+	return true;
+}
+
+function cyc() {
+	var tx = document.c.d.value.toLowerCase();
+	document.c.d.value = '';
+	if (tx == 'a') {
+		go_left();
+	} else if (tx == 'c') {
+		showC();
+	} else if (tx == 'w') {
+		go_up();
+	} else if (tx == 'd') {
+		go_right();
+	} else if (tx == 's') {
+		go_down();
+	}
+}
+
+function process_command(key) {
+	if (key == 13) {
+		start_game();
+	} else if (key == 97) {
+		go_left();
+	} else if (key == 99) {
+		showC();
+	} else if (key == 119) {
+		go_up();
+	} else if (key == 100) {
+		go_right();
+	} else if (key == 115) {
+		go_down();
+	}
+}
+
+function key_press(e) {
+	var key = 0;
+	if (document.layers) {
+		key = e.which;
+	} else if (document.all) {
+		key = window.event.keyCode;
+	}
+	process_command(key);
+}
+
+function showC() {
+	alert('* return: start/pause\n* w, a, s, d: move Pacman');
+}
+
+img0      = new Image();
+img1      = new Image();
+img2      = new Image();
+img3      = new Image();
+img4      = new Image();
+img5      = new Image();
+img6      = new Image();
+img7      = new Image();
+img8      = new Image();
+img9      = new Image();
+pblack    = new Image();
+pac       = new Image();
+pac_left  = new Image();
+pac_up    = new Image();
+pac_right = new Image();
+pac_down  = new Image();
+red       = new Image();
+pink      = new Image();
+orange    = new Image();
+purple    = new Image();
+cherry    = new Image();
+blue      = new Image();
+blue2     = new Image();
+control1  = new Image();
+control2  = new Image();
+
+img0.src      = 'images/pblack.gif';
+img1.src      = 'images/dot.gif';
+img2.src      = 'images/bigdot.gif';
+img3.src      = 'images/black.gif';
+img4.src      = 'images/pac_right.gif';
+img5.src      = 'images/red.gif';
+img6.src      = 'images/orange.gif';
+img7.src      = 'images/purple.gif';
+img8.src      = 'images/pink.gif';
+img9.src      = 'images/black.gif';
+pblack.src    = 'images/pblack.gif';
+pac.src       = 'images/pac.gif';
+pac_left.src  = 'images/pac_left.gif';
+pac_up.src    = 'images/pac_up.gif';
+pac_right.src = 'images/pac_right.gif';
+pac_down.src  = 'images/pac_down.gif';
+red.src       = 'images/red.gif';
+pink.src      = 'images/pink.gif';
+orange.src    = 'images/orange.gif';
+purple.src    = 'images/purple.gif';
+cherry.src    = 'images/cherry.gif';
+blue.src      = 'images/blue.gif';
+blue2.src     = 'images/blue2.gif';
+control1.src  = 'images/control.gif';
+control2.src  = 'images/control_center.gif';
+
+maze = new Array();
+
+for (var i = 0; i < 17; i++) {
+	maze[i] = new Array();
+}
+
+var maze_length = 17;
+var extras      = 0;
+var start       = 0;
+var pause       = 0;
+var lives       = 3;
+var new_dir     = 0;
+var dir         = 0;
+var pos_x       = 11;
+var pos_y       = 6;
+
+var red_dir   = 'up';
+var red_pos_x = 7;
+var red_pos_y = 5;
+var red_suit  = 'red';
+
+var pink_dir   = 'up';
+var pink_pos_x = 9;
+var pink_pos_y = 7;
+var pink_suit  = 'pink';
+
+var orange_dir   = 'up';
+var orange_pos_x = 7;
+var orange_pos_y = 7;
+var orange_suit  = 'orange';
+
+var purple_dir   = 'up';
+var purple_pos_x = 9;
+var purple_pos_y = 5;
+var purple_suit  = 'purple';
+
+var cherry_on    = 0;
+var cherry_dir   = 'up';
+var cherry_pos_x = 0;
+var cherry_pos_y = 0;
+
+var curr          = 0;
+var speed         = 250;
+var tmr           = 0;
+var g_tmr         = 0;
+var g_tmr2        = 0;
+var g_speed       = 10000;
+var total_pellets = 0;
+var points        = 0;
+var highscore     = 10000;
+var level         = 1;
+
+var warp = new Array();
+
+warp[0] = new Array(0,  3,  "up",    16, 3 );
+warp[1] = new Array(0,  9,  "up",    16, 9 );
+warp[2] = new Array(16, 3,  "down",  0,  3 );
+warp[3] = new Array(16, 9,  "down",  0,  9 );
+warp[4] = new Array(3,  0,  "left",  3,  12);
+warp[5] = new Array(13, 0,  "left",  13, 12);
+warp[6] = new Array(3,  12, "right", 3,  0 );
+warp[7] = new Array(13, 12, "right", 13, 0 );
+
+function n_up(who, what) {
+	eval("document." + who + "1.document." + who + "2.document.open();");
+	eval("document." + who + "1.document." + who + "2.document.write('<font color=white face=Arial>" + what + "</b></font>');");
+	eval("document." + who + "1.document." + who + "2.document.close();");
+}
+
+function set_score(num) {
+	if (browse == 'ns') {
+		n_up('score', num);
+	} else {
+		document.pacman.score.value = num;
+	}
+}
+
+function set_high(num) {
+	if (browse == 'ns') {
+		n_up('high', num);
+	} else {
+		document.pacman.high.value = num;
+	}
+}
+
+function set_paused(txt) {
+	if (browse == 'ns') {
+		n_up('paused', txt);
+	} else {
+		document.pacman.paused.value = txt;
+	}
+}
+
+function add_score(txt) {
+	points += txt;
+	if (points >= 10000 && extras == 0) {
+		one_up();
+	} else if (points >= 25000 && extras == 1) {
+		one_up();
+	} else if (points >= 50000 && extras == 2) {
+		one_up();
+	} else if (points >= 100000 && extras == 3) {
+		one_up();
+	}
+	if (points > highscore) {
+		highscore = points;
+		set_high(points);
+	}
+	set_score(points);
+}
+
+function one_up() {
+	extras++;
+	lives++;
+	adjust_lives();
+}
+
+function get_bonus() {
+	alert('Level ' + level + ' cleared!');
+	level++;
+	lives++;
+	var bonus = lives * 500;
+	add_score(bonus);
+	alert('Bonus: ' + bonus + ' pts');
+	if (g_speed > 3000) {
+		g_speed -= 1000;
+	}
+}
+
+function reset_cherry() {
+	cherry_on = 0;
+	add_score(1000);
+	var cur = maze[red_pos_x][red_pos_y];
+	if (cur > 3) {
+		cur = 3;
+	}
+	show_image(cherry_pos_x, cherry_pos_y, 'img' + cur);
+	cherry_dir = 'up';
+}
+
+function reset_red() {
+	add_score(250);
+	var cur = maze[red_pos_x][red_pos_y];
+	if (cur > 3) {
+		cur = 3;
+	}
+	show_image(red_pos_x, red_pos_y, 'img' + cur);
+	red_dir = 'up';
+	red_pos_x = 7;
+	red_pos_y = 5;
+	show_image(red_pos_x, red_pos_y, 'red');
+	red_suit = 'red';
+}
+
+function reset_pink() {
+	add_score(250);
+	var cur = maze[pink_pos_x][pink_pos_y];
+	if (cur > 3) {
+		cur = 3;
+	}
+	show_image(pink_pos_x, pink_pos_y, 'img' + cur);
+	pink_dir = 'up';
+	pink_pos_x = 9;
+	pink_pos_y = 7;
+	show_image(pink_pos_x, pink_pos_y, 'pink');
+	pink_suit = 'pink';
+}
+
+function reset_orange() {
+	add_score(250);
+	var cur = maze[orange_pos_x][orange_pos_y];
+	if (cur > 3) {
+		cur = 3;
+	}
+	show_image(orange_pos_x, orange_pos_y, 'img' + cur);
+	orange_dir = 'up';
+	orange_pos_x = 7;
+	orange_pos_y = 7;
+	show_image(orange_pos_x, orange_pos_y, 'orange');
+	orange_suit = 'orange';
+}
+
+function reset_purple() {
+	add_score(250);
+	var cur = maze[purple_pos_x][purple_pos_y];
+	if (cur > 3) {
+		cur = 3;
+	}
+	show_image(purple_pos_x, purple_pos_y, 'img' + cur);
+	purple_dir = 'up';
+	purple_pos_x = 9;
+	purple_pos_y = 5;
+	show_image(purple_pos_x, purple_pos_y, 'purple');
+	purple_suit = 'purple';
+}
+
+function reset_pac() {
+	var cur = maze[pos_x][pos_y];
+	if (cur > 3) {
+		curr = 3;
+	}
+	show_image(pos_x, pos_y, 'img' + cur);
+	dir = 0;
+	pos_x = 11;
+	pos_y = 6;
+	show_image(pos_x, pos_y, 'pac_right');
+}
+
+function got_hit() {
+	alert('Ouch!');
+	if (lives == 0) {
+		lives = 3;
+		level = 1;
+		alert('Game over!');
+		g_speed = 10000;
+		if (points > 10000) {
+			setCookie('vbhigh', highscore)
+		}
+		points = 0;
+		extras = 0;
+		add_score(0);
+		reset_board();
+	}
+	reset_all();
+}
+
+function reset_all() {
+	clearTimeout(g_tmr);
+	clearTimeout(g_tmr2);
+	points -= 1000;
+	reset_red();
+	reset_purple();
+	reset_orange();
+	reset_pink();
+	reset_pac();
+	if (cherry_on == 1) {
+		points -= 1000;
+		reset_cherry();
+	}
+	start = 0;
+}
+
+function reset_board() {
+	total_pellets = 107;
+	maze[0]  = new Array(0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0);
+	maze[1]  = new Array(0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0);
+	maze[2]  = new Array(0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0);
+	maze[3]  = new Array(1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1);
+	maze[4]  = new Array(0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0);
+	maze[5]  = new Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
+	maze[6]  = new Array(0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 1, 0, 0);
+	maze[7]  = new Array(0, 1, 1, 1, 0, 5, 9, 6, 0, 1, 1, 1, 0);
+	maze[8]  = new Array(0, 1, 0, 1, 0, 9, 9, 9, 0, 1, 0, 1, 0);
+	maze[9]  = new Array(0, 1, 1, 1, 0, 7, 9, 8, 0, 1, 1, 1, 0);
+	maze[10] = new Array(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0);
+	maze[11] = new Array(0, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 0);
+	maze[12] = new Array(0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0);
+	maze[13] = new Array(1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1);
+	maze[14] = new Array(0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0);
+	maze[15] = new Array(0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0);
+	maze[16] = new Array(0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0);
+	for (var h = 0; h < maze_length; h++) {
+		for (var i = 0; i < 13; i++) {
+			show_image(h, i, 'img' + maze[h][i]);
+		}
+	}
+	adjust_lives();
+}
+
+function adjust_lives() {
+	for (var i = 1; i < 4; i++) {
+		if (lives >= i) {
+			document.images['pac' + i].src = pac.src;
+		} else {
+			document.images['pac' + i].src = pblack.src;
+		}
+	}
+}
+
+function calm_down() {
+	if (red_suit == 'blue') {
+		red_suit = 'blue2';
+	}
+	if (pink_suit == 'blue') {
+		pink_suit = 'blue2';
+	}
+	if (orange_suit == 'blue') {
+		orange_suit = 'blue2';
+	}
+	if (purple_suit == 'blue') {
+		purple_suit = 'blue2';
+	}
+}
+
+function get_mad() {
+	red_suit = 'red';
+	pink_suit = 'pink';
+	orange_suit = 'orange';
+	purple_suit = 'purple';
+}
+
+function super_pellet() {
+	clearTimeout(g_tmr);
+	clearTimeout(g_tmr2);
+	red_suit = 'blue';
+	pink_suit = 'blue';
+	orange_suit = 'blue';
+	purple_suit = 'blue';
+	g_tmr = setTimeout('get_mad()', g_speed);
+	g_tmr2 = setTimeout('calm_down()', g_speed - 1500);
+}
+
+function start_game() {
+	if (start == 0) {
+		lives--;
+		adjust_lives();
+		alert('Level ' + level + '\n\nGood luck!');
+		pause = 0;
+		cycle();
+	} else {
+		if (pause == 0) {
+			clearTimeout(tmr);
+			pause = 1;
+			set_paused('* Paused *');
+		} else if (pause == 1) {
+			pause = 0;
+			set_paused('');
+			cycle();
+		}
+	}
+}
+
+function cycle() {
+	// *** Start Pacman's Routine ***
+	var raninto = 0;
+	start = 1;
+	var jump = 0;
+	var temp_pos_x = pos_x;
+	var temp_pos_y = pos_y;
+	curr = maze[pos_x][pos_y];
+	if (curr == 4) {
+		curr = 3;
+	}
+	if (dir == 'left') {
+		temp_pos_y--;
+	} else if (dir == 'up') {
+		temp_pos_x--;
+	} else if (dir == 'right') {
+		temp_pos_y++;
+	} else if (dir == 'down') {
+		temp_pos_x++;
+	}
+	for (var i=0; i<warp.length; i++) {
+		if (pos_x == warp[i][0] && pos_y == warp[i][1] && dir == warp[i][2]) {
+			temp_pos_x = warp[i][3];
+			temp_pos_y = warp[i][4];
+			i = warp.length;
+			jump = 1;
+		}
+	}
+	var check = maze[temp_pos_x][temp_pos_y];
+	if ((jump == 1 || (check != 0 && check < 5)) && dir != 0) {
+		if (temp_pos_x == red_pos_x && temp_pos_y == red_pos_y) { // *** Ran into Red ***
+			if (red_suit.substring(0,4) == "blue") {
+				reset_red();
+			} else {
+				got_hit();
+				return;
+			}
+		}
+		if (temp_pos_x == pink_pos_x && temp_pos_y == pink_pos_y) { // *** Ran into Pink ***
+			if (pink_suit.substring(0,4) == "blue") {
+				reset_pink();
+			} else {
+				got_hit();
+				return;
+			}
+		}
+		if (temp_pos_x == orange_pos_x && temp_pos_y == orange_pos_y) { // *** Ran into Orange ***
+			if (orange_suit.substring(0,4) == "blue") {
+				reset_orange();
+			} else {
+				got_hit();
+				return;
+			}
+		}
+		if (temp_pos_x == purple_pos_x && temp_pos_y == purple_pos_y) { // *** Ran into Purple ***
+			if (purple_suit.substring(0,4) == "blue") {
+				reset_purple();
+			} else {
+				got_hit();
+				return;
+			}
+		}
+		if (temp_pos_x == cherry_pos_x && temp_pos_y == cherry_pos_y) { // *** Ran into Cherry ***
+			reset_cherry();
+		}
+		if (check == 1) { // *** Found a Pellet ***
+			maze[temp_pos_x][temp_pos_y] = 3;
+			curr = 3;
+			add_score(50);
+			check_pellets();
+			if (total_pellets == 0) {
+				get_bonus();
+				reset_all();
+				reset_board();
+				return;
+			}
+		}
+		if (check == 2) { // *** Found a Super Pellet ***
+			maze[temp_pos_x][temp_pos_y] = 3;
+			curr = 3;
+			add_score(100);
+			check_pellets();
+			if (total_pellets == 0) {
+				get_bonus();
+				reset_all();
+				reset_board();
+				return;
+			}
+			super_pellet();
+		}
+		show_image(pos_x, pos_y, "img"+curr);
+		pos_x = temp_pos_x;
+		pos_y = temp_pos_y;
+		show_image(pos_x, pos_y, "pac_"+dir);
+	}
+
+	// *** Start Red's Routine ***
+	jump = 0;
+	temp_pos_x = red_pos_x;
+	temp_pos_y = red_pos_y;
+	curr = maze[red_pos_x][red_pos_y];
+	if (curr > 3) {
+		if (curr > 4) {
+			temp_pos_x = 6;
+			temp_pos_y = 6;
+			jump = 1;
+		}
+		curr = 3;
+	}
+	if (red_dir == 'left') {
+		temp_pos_y--;
+	} else if (red_dir == 'up') {
+		temp_pos_x--;
+	} else if (red_dir == 'right') {
+		temp_pos_y++;
+	} else if (red_dir == 'down') {
+		temp_pos_x++;
+	}
+	for (var i=0; i<warp.length; i++) {
+		if (red_pos_x == warp[i][0] && red_pos_y == warp[i][1] && red_dir == warp[i][2]) {
+			temp_pos_x = warp[i][3];
+			temp_pos_y = warp[i][4];
+			i = warp.length;
+			jump = 1;
+		}
+	}
+	if (temp_pos_x == pos_x && temp_pos_y == pos_y) { // *** Ran into Pacman ***
+		if (red_suit.substring(0,4) == 'blue') {
+			raninto = 1;
+			reset_red();
+		} else {
+			got_hit();
+			return;
+		}
+	}
+	check = maze[temp_pos_x][temp_pos_y];
+	if (raninto == 0 && (jump == 1 || (check != 0 && check < 5))) {
+		show_image(red_pos_x, red_pos_y, 'img' + curr);
+		red_pos_x = temp_pos_x;
+		red_pos_y = temp_pos_y;
+		show_image(red_pos_x, red_pos_y, red_suit);
+	}
+	var new_dir = 0;
+	var num = 0;
+	if (raninto == 0) {
+		while (new_dir == 0) {
+			num = Math.round(Math.random() * 3);
+			if (red_pos_y > 0) {
+				if (num == 0 && maze[red_pos_x][red_pos_y-1] != 0 && maze[red_pos_x][red_pos_y-1] < 5) {
+					if (red_dir == 'right') {
+						new_dir = 'right';
+					} else {
+						new_dir = "left";
+					}
+					red_dir = new_dir;
+				}
+			}
+			if (red_pos_x > 0) {
+				if (num == 1 && maze[red_pos_x-1][red_pos_y] != 0 && maze[red_pos_x-1][red_pos_y] < 5) {
+					if (red_dir == 'down') {
+						new_dir = 'down';
+					} else {
+						new_dir = 'up';
+					}
+					red_dir = new_dir;
+				}
+			}
+			if (red_pos_y < 12) {
+				if (num == 2 && maze[red_pos_x][red_pos_y+1] != 0 && maze[red_pos_x][red_pos_y+1] < 5) {
+					if (red_dir == 'left') {
+						new_dir = 'left';
+					} else {
+						new_dir = 'right';
+					}
+					red_dir = new_dir;
+				}
+			}
+			if (red_pos_x < 16) {
+				if (num == 3 && maze[red_pos_x+1][red_pos_y] != 0 && maze[red_pos_x+1][red_pos_y] < 5) {
+					if (red_dir == 'up') {
+			            new_dir = 'up';
+					} else {
+			            new_dir = 'down';
+					}
+					red_dir = new_dir;
+				}
+			}
+		}
+	}
+
+	// *** Start Pink's Routine ***
+	jump = 0;
+	raninto = 0;
+	temp_pos_x = pink_pos_x;
+	temp_pos_y = pink_pos_y;
+	curr = maze[pink_pos_x][pink_pos_y];
+	if (curr > 3) {
+		if (curr > 4) {
+			temp_pos_x = 6;
+			temp_pos_y = 6;
+			jump = 1;
+		}
+		curr = 3;
+	}
+	if (pink_dir == 'left') {
+		temp_pos_y--;
+	} else if (pink_dir == 'up') {
+		temp_pos_x--;
+	} else if (pink_dir == 'right') {
+		temp_pos_y++;
+	} else if (pink_dir == 'down') {
+		temp_pos_x++;
+	}
+	for (var i=0; i<warp.length; i++) {
+		if (pink_pos_x == warp[i][0] && pink_pos_y == warp[i][1] && pink_dir == warp[i][2]) {
+			temp_pos_x = warp[i][3];
+			temp_pos_y = warp[i][4];
+			i = warp.length;
+			jump = 1;
+		}
+	}
+	if (temp_pos_x == pos_x && temp_pos_y == pos_y) { // *** Ran into Pacman ***
+		if (pink_suit.substring(0,4) == 'blue') {
+			reset_pink();
+			raninto = 1;
+		} else {
+			got_hit();
+			return;
+		}
+	}
+	check = maze[temp_pos_x][temp_pos_y];
+	if (raninto == 0 && (jump == 1 || (check != 0 && check < 5))) {
+		show_image(pink_pos_x, pink_pos_y, 'img' + curr);
+		pink_pos_x = temp_pos_x;
+		pink_pos_y = temp_pos_y;
+		show_image(pink_pos_x, pink_pos_y, pink_suit);
+	}
+	var new_dir = 0;
+	var num = 0;
+	if (raninto == 0) {
+		while (new_dir == 0) {
+			num = Math.round(Math.random() * 3);
+			if (pink_pos_y > 0) {
+				if (num == 0 && maze[pink_pos_x][pink_pos_y-1] != 0 && maze[pink_pos_x][pink_pos_y-1] < 5) {
+					if (pink_dir == 'right') {
+						new_dir = 'right';
+					} else {
+						new_dir = 'left';
+					}
+					pink_dir = new_dir;
+				}
+			}
+			if (pink_pos_x > 0) {
+				if (num == 1 && maze[pink_pos_x-1][pink_pos_y] != 0 && maze[pink_pos_x-1][pink_pos_y] < 5) {
+					if (pink_dir == 'down') {
+						new_dir = 'down';
+					} else {
+						new_dir = 'up';
+					}
+					pink_dir = new_dir;
+				}
+			}
+			if (pink_pos_y < 12) {
+				if (num == 2 && maze[pink_pos_x][pink_pos_y+1] != 0 && maze[pink_pos_x][pink_pos_y+1] < 5) {
+					if (pink_dir == 'left') {
+						new_dir = 'left';
+					} else {
+						new_dir = 'right';
+					}
+					pink_dir = new_dir;
+				}
+			}
+			if (pink_pos_x < 16) {
+				if (num == 3 && maze[pink_pos_x+1][pink_pos_y] != 0 && maze[pink_pos_x+1][pink_pos_y] < 5) {
+					if (pink_dir == 'up') {
+						new_dir = 'up';
+					} else {
+						new_dir = 'down';
+					}
+					pink_dir = new_dir;
+				}
+			}
+		}
+	}
+
+	// *** Start Orange's Routine ***
+	jump = 0;
+	raninto = 0;
+	temp_pos_x = orange_pos_x;
+	temp_pos_y = orange_pos_y;
+	curr = maze[orange_pos_x][orange_pos_y];
+	if (curr > 3) {
+		if (curr > 4) {
+			temp_pos_x = 6;
+			temp_pos_y = 6;
+			jump = 1;
+		}
+		curr = 3;
+	}
+	if (orange_dir == 'left') {
+		temp_pos_y--;
+	} else if (orange_dir == 'up') {
+		temp_pos_x--;
+	} else if (orange_dir == 'right') {
+		temp_pos_y++;
+	} else if (orange_dir == 'down') {
+		temp_pos_x++;
+	}
+	for (var i=0; i<warp.length; i++) {
+		if (orange_pos_x == warp[i][0] && orange_pos_y == warp[i][1] && orange_dir == warp[i][2]) {
+			temp_pos_x = warp[i][3];
+			temp_pos_y = warp[i][4];
+			i = warp.length;
+			jump = 1;
+		}
+	}
+	if (temp_pos_x == pos_x && temp_pos_y == pos_y) { // *** Ran into Pacman ***
+		if (orange_suit.substring(0,4) == "blue") {
+			raninto = 1;
+			reset_orange();
+		} else {
+			got_hit();
+			return;
+		}
+	}
+	check = maze[temp_pos_x][temp_pos_y];
+	if (raninto == 0 && (jump == 1 || (check != 0 && check < 5))) {
+		show_image(orange_pos_x, orange_pos_y, 'img' + curr);
+		orange_pos_x = temp_pos_x;
+		orange_pos_y = temp_pos_y;
+		show_image(orange_pos_x, orange_pos_y, orange_suit);
+	}
+	var new_dir = 0;
+	var num = 0;
+	if (raninto == 0) {
+		while (new_dir == 0) {
+			num = Math.round(Math.random() * 3);
+			if (orange_pos_y > 0) {
+				if (num == 0 && maze[orange_pos_x][orange_pos_y-1] != 0 && maze[orange_pos_x][orange_pos_y-1] < 5) {
+					if (orange_dir == 'right') {
+						new_dir = 'right';
+					} else {
+						new_dir = 'left';
+					}
+					orange_dir = new_dir;
+				}
+			}
+			if (orange_pos_x > 0) {
+				if (num == 1 && maze[orange_pos_x-1][orange_pos_y] != 0 && maze[orange_pos_x-1][orange_pos_y] < 5) {
+					if (orange_dir == 'down') {
+						new_dir = 'down';
+					} else {
+						new_dir = 'up';
+					}
+					orange_dir = new_dir;
+				}
+			}
+			if (orange_pos_y < 12) {
+				if (num == 2 && maze[orange_pos_x][orange_pos_y+1] != 0 && maze[orange_pos_x][orange_pos_y+1] < 5) {
+					if (orange_dir == 'left') {
+						new_dir = 'left';
+					} else {
+						new_dir = 'right';
+					}
+					orange_dir = new_dir;
+				}
+			}
+			if (orange_pos_x < 16) {
+				if (num == 3 && maze[orange_pos_x+1][orange_pos_y] != 0 && maze[orange_pos_x+1][orange_pos_y] < 5) {
+					if (orange_dir == 'up') {
+						new_dir = 'up';
+					} else {
+						new_dir = 'down';
+					}
+					orange_dir = new_dir;
+				}
+			}
+		}
+	}
+
+	// *** Start Purple's Routine ***
+	jump = 0;
+	raninto = 0;
+	temp_pos_x = purple_pos_x;
+	temp_pos_y = purple_pos_y;
+	curr = maze[purple_pos_x][purple_pos_y];
+	if (curr > 3) {
+		if (curr > 4) {
+			temp_pos_x = 6;
+			temp_pos_y = 6;
+			jump = 1;
+		}
+		curr = 3;
+	}
+	if (purple_dir == 'left') {
+		temp_pos_y--;
+	} else if (purple_dir == 'up') {
+		temp_pos_x--;
+	} else if (purple_dir == 'right') {
+		temp_pos_y++;
+	} else if (purple_dir == 'down') {
+		temp_pos_x++;
+	}
+	for (var i=0; i<warp.length; i++) {
+		if (purple_pos_x == warp[i][0] && purple_pos_y == warp[i][1] && purple_dir == warp[i][2]) {
+			temp_pos_x = warp[i][3];
+			temp_pos_y = warp[i][4];
+			i = warp.length;
+			jump = 1;
+		}
+	}
+	if (temp_pos_x == pos_x && temp_pos_y == pos_y) { // *** Ran into Pacman ***
+		if (purple_suit.substring(0,4) == 'blue') {
+			raninto = 1;
+			reset_purple();
+		} else {
+			got_hit();
+			return;
+		}
+	}
+	check = maze[temp_pos_x][temp_pos_y];
+	if (raninto == 0 && (jump == 1 || (check != 0 && check < 5))) {
+		show_image(purple_pos_x, purple_pos_y, 'img' + curr);
+		purple_pos_x = temp_pos_x;
+		purple_pos_y = temp_pos_y;
+		show_image(purple_pos_x, purple_pos_y, purple_suit);
+	}
+	var new_dir = 0;
+	var num = 0;
+	if (raninto == 0) {
+		while (new_dir == 0) {
+			num = Math.round(Math.random()*3);
+			if (purple_pos_y > 0) {
+				if (num == 0 && maze[purple_pos_x][purple_pos_y-1] != 0 && maze[purple_pos_x][purple_pos_y-1] < 5) {
+					if (purple_dir == 'right') {
+						new_dir = 'right';
+					} else {
+						new_dir = 'left';
+					}
+					purple_dir = new_dir;
+				}
+			}
+			if (purple_pos_x > 0) {
+				if (num == 1 && maze[purple_pos_x-1][purple_pos_y] != 0 && maze[purple_pos_x-1][purple_pos_y] < 5) {
+					if (purple_dir == 'down') {
+						new_dir = 'down';
+					} else {
+						new_dir = 'up';
+					}
+					purple_dir = new_dir;
+				}
+			}
+			if (purple_pos_y < 12) {
+				if (num == 2 && maze[purple_pos_x][purple_pos_y+1] != 0 && maze[purple_pos_x][purple_pos_y+1] < 5) {
+					if (purple_dir == 'left') {
+						new_dir = 'left';
+					} else {
+						new_dir = 'right';
+					}
+					purple_dir = new_dir;
+				}
+			}
+			if (purple_pos_x < 16) {
+				if (num == 3 && maze[purple_pos_x+1][purple_pos_y] != 0 && maze[purple_pos_x+1][purple_pos_y] < 5) {
+					if (purple_dir == 'up') {
+						new_dir = 'up';
+					} else {
+						new_dir = 'down';
+					}
+					purple_dir = new_dir;
+				}
+			}
+		}
+	}
+
+	// *** Start Cherry's Routine ***
+	var ran = Math.round(Math.random()*100);
+	if (ran == 0 && cherry_on == 0) {
+		cherry_on = 1;
+		var check = 0;
+		var new_x = 0;
+		var new_y = 0;
+		var point = 0;
+		while (check == 0) {
+			new_x = Math.round(Math.random()*14)+1;
+			new_y = Math.round(Math.random()*10)+1;
+			point = maze[new_x][new_y];
+			if (point == 1 || point == 2) {
+				cherry_pos_x = new_x;
+				cherry_pos_y = new_y;
+				check = 1;
+			}
+		}
+	}
+	if (cherry_on == 1) {
+		jump = 0;
+		temp_pos_x = cherry_pos_x;
+		temp_pos_y = cherry_pos_y;
+		curr = maze[cherry_pos_x][cherry_pos_y];
+		if (curr > 3) {
+			if (curr > 4) {
+				temp_pos_x = 6;
+				temp_pos_y = 6;
+				jump = 1;
+			}
+			curr = 3;
+		}
+		if (cherry_dir == 'left') {
+			temp_pos_y--;
+		} else if (cherry_dir == 'up') {
+			temp_pos_x--;
+		} else if (cherry_dir == 'right') {
+			temp_pos_y++;
+		} else if (cherry_dir == 'down') {
+			temp_pos_x++;
+		}
+		for (var i=0; i<warp.length; i++) {
+			if (cherry_pos_x == warp[i][0] && cherry_pos_y == warp[i][1] && cherry_dir == warp[i][2]) {
+				temp_pos_x = warp[i][3];
+				temp_pos_y = warp[i][4];
+				i = warp.length;
+				jump = 1;
+			}
+		}
+		if (temp_pos_x == pos_x && temp_pos_y == pos_y) { // *** Ran into Pacman ***
+			reset_cherry();
+		}
+		check = maze[temp_pos_x][temp_pos_y];
+		if (jump == 1 || (check != 0 && check < 5)) {
+			show_image(cherry_pos_x, cherry_pos_y, 'img' + curr);
+			cherry_pos_x = temp_pos_x;
+			cherry_pos_y = temp_pos_y;
+			show_image(cherry_pos_x, cherry_pos_y, "cherry");
+		}
+		var new_dir = 0;
+		var num;
+		while (new_dir == 0) {
+			num = Math.round(Math.random()*3);
+			if (cherry_pos_y > 0) {
+				if (num == 0 && maze[cherry_pos_x][cherry_pos_y-1] != 0 && maze[cherry_pos_x][cherry_pos_y-1] < 5) {
+					if (cherry_dir == 'right') {
+						new_dir = 'right';
+					} else {
+						new_dir = 'left';
+					}
+					cherry_dir = new_dir;
+				}
+			}
+			if (cherry_pos_x > 0) {
+				if (num == 1 && maze[cherry_pos_x-1][cherry_pos_y] != 0 && maze[cherry_pos_x-1][cherry_pos_y] < 5) {
+					if (cherry_dir == 'down') {
+						new_dir = 'down';
+					} else {
+						new_dir = 'up';
+					}
+					cherry_dir = new_dir;
+				}
+			}
+			if (cherry_pos_y < 12) {
+				if (num == 2 && maze[cherry_pos_x][cherry_pos_y+1] != 0 && maze[cherry_pos_x][cherry_pos_y+1] < 5) {
+					if (cherry_dir == 'left') {
+						new_dir = 'left';
+					} else {
+						new_dir = 'right';
+					}
+					cherry_dir = new_dir;
+				}
+			}
+			if (cherry_pos_x < 16) {
+				if (num == 3 && maze[cherry_pos_x+1][cherry_pos_y] != 0 && maze[cherry_pos_x+1][cherry_pos_y] < 5) {
+					if (cherry_dir == 'up') {
+						new_dir = 'up';
+					} else {
+						new_dir = 'down';
+					}
+					cherry_dir = new_dir;
+				}
+			}
+		}
+	}
+
+	if (pause != 1) {
+		tmr = setTimeout('cycle()', speed);
+	}
+}
+
+function show_image(x, y, nm) {
+	if (document.images['img' + x + ':' + y]) {
+		document.images['img' + x + ':' + y].src = eval(nm + '.src');
+	}
+}
+
+function check_pellets() {
+	total_pellets--;
+}
+
+function go_left() {
+	if (start == 0 || pause == 1) {
+		return;
+	}
+	var temp_pos_y = pos_y-1;
+	if (temp_pos_y > -1) {
+		var check = maze[pos_x][temp_pos_y];
+		if (check == 0 || check > 4 || dir == "left") {
+			return;
+		}
+	}
+	dir = 'left';
+}
+
+function go_up() {
+	if (start == 0 || pause == 1) {
+		return;
+	}
+	var temp_pos_x = pos_x-1;
+	if (temp_pos_x > -1) {
+		var check = maze[temp_pos_x][pos_y];
+		if (check == 0 || check > 4 || dir == "up") {
+			return;
+		}
+	}
+	dir = 'up';
+}
+
+function go_right() {
+	if (start == 0 || pause == 1) {
+		return;
+	}
+	var temp_pos_y = pos_y+1;
+	if (temp_pos_y < 13) {
+		var check = maze[pos_x][temp_pos_y];
+		if (check == 0 || check > 4 || dir == "right") {
+			return;
+		}
+	}
+	dir = 'right';
+}
+
+function go_down() {
+	if (start == 0 || pause == 1) {
+		return;
+	}
+	var temp_pos_x = pos_x+1;
+	if (temp_pos_x < 17) {
+		var check = maze[temp_pos_x][pos_y];
+		if (check == 0 || check > 4 || dir == "down") {
+			return;
+		}
+	}
+	dir = 'down';
+}
+
+function wtv_go_up() {
+	if (webtv && start != 0 && pause != 1) {
+		go_up();
+		document.links['main'].focus();
+	}
+}
+
+function wtv_go_left() {
+	if (webtv && start != 0 && pause != 1) {
+		go_left();
+		document.links['main'].focus();
+	}
+}
+
+function wtv_go_right() {
+	if (webtv && start != 0 && pause != 1) {
+		go_right();
+		document.links['main'].focus();
+	}
+}
+
+function wtv_go_down() {
+	if (webtv && start != 0 && pause != 1) {
+		go_down();
+		document.links['main'].focus();
+	}
+}
+
+//-->
+
+	</script>
+
+</head>
+
+<body bgcolor="black" text="white" onload="reset_board(); getAll()" link="white" alink="white" vlink="white" background="images/check.jpg">
+
+<table width="100%" height="98%" border="0" cellpadding="10" cellspacing="0">
+<tr>
+<td align="center" valign="center">
+
+	<table border="0" cellpadding="10" cellspacing="0" bgcolor="#000066">
+<tr>
+
+<td><table border="0" cellpadding="0" cellspacing="0"><tr><td bgcolor="black"><script>
+
+<!--
+
+document.write("<table border=0 cellpadding=0 cellspacing=0 bgcolor=black><tr><td>");
+
+for (var h = 0; h < maze_length; h++) {
+	if (h != 0) {
+		document.write("<br>");
+	}
+	for (var i=0; i<13; i++) {
+		document.write("<img height=20 width=20 src='images/black.gif' name='img" + h + ":" + i + "'>");
+	}
+}
+
+document.write("</td></tr></table>");
+
+//-->
+
+</script>
+
+<td width="100">
+
+<script>
+
+<!--
+
+	if (browse != "ns") { document.write("<form name='pacman'>"); }
+
+//-->
+
+</script>
+
+<b>Score</b>
+<br>
+
+<script>
+
+<!--
+
+	if (browse == "ns") {
+		document.write("<ilayer id='score1' width=75><layer id='score2' width=75><font color='white' face='Arial'>0</font></layer></ilayer>");
+	} else {
+		document.write("<font color='white'><input name='score' size=7 readonly value=0 usestyle borderimage=0 noselect bgcolor='#000066'></font>");
+	}
+
+//-->
+
+</script>
+
+<p><b>High</b>
+<br>
+
+<script>
+
+<!--
+
+	if (browse == "ns") {
+		document.write("<ilayer id='high1' width=75><layer id='high2' width=75><font color='white' face='Arial'>10000</font></layer></ilayer>");
+	} else {
+		document.write("<font color='white'><input name='high' readonly size=7 value=10000 usestyle borderimage=0 noselect bgcolor='#000066'></font>");
+	}
+
+//-->
+
+</script>
+
+</p><p><b>Remaining</b>
+<br>
+<img height="20" width="20" src="images/pac.gif" name="pac1"><img height="20" width="20" src="images/pac.gif" name="pac2"><img height="20" width="20" src="images/pac.gif" name="pac3">
+</p><p>
+
+<script>
+
+<!--
+
+	if (browse == "ns") {
+		document.write("<ilayer id='paused1' width=75><layer id='paused2' width=75><font color='white'></font></layer></ilayer>");
+	} else {
+		document.write("<font color='white'><input name='paused' readonly size=10 usestyle borderimage=0 noselect bgcolor='#000066'></b></font>");
+	}
+
+	if (browse != "ns") { document.write("</form>"); }
+
+	if (browse == "wtv") {
+		if (onkeypress_enabled) { // ONKEYPRESS Upgrade
+			document.write("<br><form name='c'><input name='d' nohighlight size=1 text='#000066' borderimage=0 bgcolor='#000066' cursor='#000066' autoactivate nosubmit onkeypress='process_command(event.keyCode); return false'></form>");
+		} else { // No upgrade
+			document.write("<br><form name='c' action='javascript:void(start_game())//'><input name='d' nohighlight size=1 text='#000066' borderimage=0 bgcolor='#000066' cursor='#000066' autoactivate></form>");
+			setInterval("cyc()", 100);
+		}
+	}
+
+//-->
+
+</script>
+
+	</p></td>
+	</tr>
+	</table>
+
+	<p>
+
+	Press "c" for a list of keyboard commands.
+
+</p></td>
+</tr>
+</table>
+
+
+
+</body></html>
