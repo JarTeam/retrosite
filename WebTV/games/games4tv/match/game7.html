@@ -1,0 +1,193 @@
+<html><head><meta http-equiv="Copyright" content="Copyright, 2002-2006, Iacta LLC. All rights reserved. For licensing inquiries, email to info@iacta.com">
+
+<title>Highway Match</title>
+<style>
+	BODY {
+	background-color:#112233; color:#ffffff;
+		font-family : Arial, Tahoma, Helvetica, sans-serif;
+		background-repeat: repeat-x;		
+		margin-left : 0px;
+		margin-right : 0px;
+		margin-top : 0px;
+		margin-bottom: 0px;
+	}
+	H2 { font: 20pt Arial Black; color:#eacaea;margin-bottom : -5px;margin-top : -5px;}
+
+	.label {text-decoration: bold; color:#eaeaea; font: 14pt Arial;}
+</style>
+
+<!--
+This loads and matches pairs of identical images.
+-->
+<script src="scripts/cars.js"></script>
+<script>
+
+
+var score = 0;
+var movecount = 0;
+
+var places = rows*cols;
+
+var grid = new Array();
+for (var i = 0; i < rows; i++) {
+		grid[i] = new Array();
+		}
+
+
+
+function Spot(r,c) {
+	this.r = r;
+	this.c = c;
+	this.state=0;
+}
+
+function spot(r,c) {
+	c = new Spot(r,c);
+	return c;
+}
+
+var noSpot = spot(-1,-1);
+
+var pair = new Array(noSpot,noSpot);
+
+//basic setup functions for games
+var pieces = new Array();for (var i = 0; i < places; i++) {pieces[i] = new Piece(i);}
+function shuffle() {for (var i = 0; i < places; i++) {var tempndx = get_rand(places);var temp1 = pieces[i];var temp2 = pieces[tempndx];pieces[i] = temp2;pieces[tempndx] = temp1;}}
+
+function deal() {
+	var indx = 0;
+	for (var i = 0; i < rows; i++) {
+		for (var j = 0; j < cols; j++) {
+			grid[i][j] = pieces[indx]; //pieces.pop();
+			grid[i][j].loc = spot(i,j);
+			indx++;
+		}
+	}	
+}
+
+function display() {
+	for (var i = 0; i < rows; i++) {
+		for (var j = 0; j < cols; j++) {
+		document.images["i"+ i+":"+j].src = back[i][j].src;
+		}
+	}
+}
+
+function show(place) {
+	document.images["i"+ place.r+":"+place.c].src = grid[place.r][place.c].face.src;
+}
+
+//these accept the pair number, 1 or 0, and derive where they are, then hide or clear them
+function hide(num) {
+	place=pair[num];
+	document.images["i"+ place.r+":"+place.c].src = back[place.r][place.c].src;
+	pair[num] = noSpot;
+}
+
+function clearit(num) {
+	place=pair[num];
+	grid[place.r][place.c].loc.state=1;
+	document.images["i"+ place.r+":"+place.c].src = blank.src;
+	pair[num] = noSpot;	
+}
+
+function setup() {
+	shuffle();
+	deal();
+	display();
+}
+
+//game operation
+
+function click(r,c) {
+	if (grid[r][c].loc.state == 0) { //traps for already cleared tiles
+		if (pair[0].r == -1) {
+			pair[0] = grid[r][c].loc;
+			show(pair[0]);
+		}
+		else if ((pair[1].r == -1) && !(pair[0].r == r && pair[0].c == c)) {
+			pair[1] = grid[r][c].loc;
+			show(pair[1]);		
+			checkMatch();
+			
+		}
+	}	
+}
+
+function checkMatch() {
+	movecount++;
+	//tests state for match; could be changed to test any property
+	if (grid[pair[0].r][pair[0].c].state == grid[pair[1].r][pair[1].c].state) {
+		//tellme("match!");
+		scoreit();
+		setTimeout("clearit(0); clearit(1)",1000); 
+	}
+	else {
+		setTimeout("hide(0); hide(1)",1000); 
+	}	
+}
+
+function scoreit() {
+	score++;
+	if (score == places/2) win();
+
+}
+
+function win() {
+	tellme("solved in "+movecount+" moves!");
+}
+
+
+//utility
+function ndx(r,c) {return (r * cols)+c;}
+function get_rand(seed) {return Math.floor((seed-1)*Math.random());}
+
+//debugging
+
+function tellme(str) {
+	//temptext = document.listing.tracker.value;
+	//document.listing.tracker.value= temptext + str + "\n";
+	}
+
+</script>
+
+</head>
+<body onload="setup()" vspace="0" topmargin="0" background="cars/carbg.gif">
+<!-- body table for tracker and game -->
+<table width="100%" height="99%">
+<tbody><tr><td valign="top">
+<!-- page/game layout starts here -->
+	<table width="544" height="376" cellpadding="0" cellspacing="0" border="0"> 
+	<tbody><tr><td height="44" background="../../games4tv/branding/gamesbar.gif" align="center"><b>Highway Match</b></td></tr>
+	<tr><td align="center">
+
+<script>
+document.write("<table cellpadding=0 cellspacing=0 border=0 background='"+piecepath+bgpic+"'>");
+for (var i = 0; i < rows; i++) {
+	document.write("<TR>")
+	for (var j = 0; j < cols; j++) {
+		document.write("<TD><a href='javascript:click("+i+","+j+")'><IMG name='i"+i+":"+j+"' SRC='"+blank.src+"' height="+h+" width="+w+" border=0></a></TD>");
+	}
+	document.write("</TR>")
+}
+
+</script>
+</tbody></table>
+
+	</td></tr>
+	<tr><td height="34">
+	<table cellpadding="0" cellspacing="0" border="0" height="30">
+	<tbody><tr><td><a href="javascript:location.reload()"><img src="../../games4tv/common/newgame.gif" width="120" height="26" border="0"></a></td><td><a href="index.html"><img src="../../games4tv/common/exit.gif" width="120" height="26" border="0"></a></td></tr>
+	</tbody></table>
+	</td></tr></tbody></table>
+
+
+<!-- page/game layout ends -->
+</td></tr>
+</tbody></table>
+
+
+
+
+
+</body></html>

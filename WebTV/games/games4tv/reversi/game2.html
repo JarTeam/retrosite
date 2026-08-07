@@ -1,0 +1,517 @@
+<html><head><meta http-equiv="Copyright" content="Copyright, 2002-2006, Iacta LLC. All rights reserved. For licensing inquiries, email to info@iacta.com">
+
+<title>Reversi 4 Two</title>
+
+<script>
+var numrows=8;
+var numcells = 8;
+var gameover = false;
+
+var reds = 0
+var blacks = 0;
+var moves = 64 - (reds + blacks);
+
+var numero = new Array();
+numero[0] = new Image(16,19);
+numero[0].src = "numbers/0.gif";
+numero[1] = new Image(16,19);
+numero[1].src = "numbers/1.gif";
+numero[2] = new Image(16,19);
+numero[2].src = "numbers/2.gif";
+numero[3] = new Image(16,19);
+numero[3].src = "numbers/3.gif";
+numero[4] = new Image(16,19);
+numero[4].src = "numbers/4.gif";
+numero[5] = new Image(16,19);
+numero[5].src = "numbers/5.gif";
+numero[6] = new Image(16,19);
+numero[6].src = "numbers/6.gif";
+numero[7] = new Image(16,19);
+numero[7].src = "numbers/7.gif";
+numero[8] = new Image(16,19);
+numero[8].src = "numbers/8.gif";
+numero[9] = new Image(16,19);
+numero[9].src = "numbers/9.gif";
+numero[10] = new Image(16,19);
+numero[10].src = "numbers/black.gif";
+
+function showscore(thenum,prefix) {
+	var tempscore = "" + thenum;
+	var templength = tempscore.length;
+	document.images[prefix+"1"].src = numero[parseInt(tempscore.charAt(templength-1))].src;
+	if (templength > 1) {
+		document.images[prefix+"10"].src = numero[parseInt(tempscore.charAt(templength-2))].src;
+	}
+	else document.images[prefix+"10"].src = numero[10].src;
+}
+
+var msg = new Array();
+msg[0] = new Image(120,87);
+msg[0].src = "opieces/msg_blank.gif"; //clear talker
+msg[1] = new Image(120,87);
+msg[1].src = "opieces/msg_wturn.gif"; //white turn
+msg[2] = new Image(120,87);
+msg[2].src = "opieces/msg_bturn.gif"; //black/green turn
+msg[3] = new Image(120,87);
+msg[3].src = "opieces/msg_notvalid.gif"; //not valid move turn
+msg[4] = new Image(120,87);
+msg[4].src = "opieces/msg_nomoves.gif"; //no moves on this turn
+msg[5] = new Image(120,87);
+msg[5].src = "opieces/msg_mustplay.gif"; //must play on this turn
+msg[6] = new Image(120,87);
+msg[6].src = "opieces/msg_wwin.gif"; //white win
+msg[7] = new Image(120,87);
+msg[7].src = "opieces/msg_bwin.gif"; //black/green win
+msg[8] = new Image(120,87);
+msg[8].src = "opieces/msg_tie.gif"; //black/green win
+
+function talk(num) {
+	document.images["talk"].src = msg[num].src;
+}
+
+function talk2(num) {
+	document.images["talk"].src = msg[num].src;
+	setTimeout("talk(0)", 1000);
+}
+
+
+function grid(arr) {
+  temparr = new Array();
+  for (var i = 0; i < 8; i++) {
+    temparr[i] = new Array();
+    for (var j = 0; j < 8; j++) {
+      temparr[i][j] = grid.arguments[8 * i + j];
+    }
+  }
+	return temparr;
+}
+
+var wpiece = new Image();
+if (navigator.appVersion.indexOf("4.0") == -1 ) wpiece.src = "opieces/white.gif";
+else wpiece.src = "opieces/white.png";
+var bpiece = new Image();
+if (navigator.appVersion.indexOf("4.0") == -1 ) bpiece.src = "opieces/black.gif";
+else bpiece.src = "opieces/black.png";
+var blank = new Image();
+if (navigator.appVersion.indexOf("4.0") == -1 ) blank.src = "opieces/blank.gif";
+else blank.src = "opieces/blank.png";
+
+var wturn = new Image();
+if (navigator.appVersion.indexOf("4.0") == -1 ) wturn.src = "opieces/wturn.gif";
+else wturn.src = "opieces/wturn.png";
+var gturn = new Image();
+if (navigator.appVersion.indexOf("4.0") == -1 ) gturn.src = "opieces/bturn.gif";
+else gturn.src = "opieces/bturn.png";
+
+var turn = 1;
+
+function turnswitch() {
+	turn = turn * -1;
+
+	display();
+	getMoves();
+	var turnsrc = (turn > 0) ? wturn.src : gturn.src;
+	document.images["turn"].src= turnsrc;
+
+}
+
+var white = 1; //using red piece
+var black = -1;
+
+var board = grid(
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  1,  -1,  0,  0,  0,
+ 0,  0,  0,  -1,  1,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0
+);
+
+function display() {
+	reds = 0;
+	blacks = 0;
+	for (var i = 0; i < 8; i++) {
+		for (var j = 0; j < 8; j++) {
+			if (board[i][j] > 0) {
+				document.images["t" + i + ":" + j].src=wpiece.src;
+				reds += 1;
+			}
+			else if (board[i][j] < 0) {
+				document.images["t" + i + ":" + j].src=bpiece.src;
+				blacks +=1;
+			}
+			else document.images["t" + i + ":" + j].src=blank.src;
+		}
+	}
+	showscore(reds, "w");
+	showscore(blacks, "g");
+	var msgnum = (turn > 0) ? 1 : 2;
+	if (reds+blacks > 63) {
+		if (reds > blacks) talk(6);
+		else if (blacks > reds) talk(7);
+		else  talk(8);
+		gameover = true;
+	}
+	if (reds < 1 || blacks < 1) {
+		if (reds > blacks) talk(6);
+		else if (blacks > reds) talk(7);
+		gameover = true;
+	}
+	if (!gameover) talk(msgnum);
+}
+
+function setup() {
+	var msgnum = (turn > 0) ? 1 : 2;
+	display();
+	getMoves();
+	var turnsrc = (turn > 0) ? wturn.src : gturn.src;
+	document.images["turn"].src= turnsrc;
+	talk(msgnum);
+}
+
+
+function point(r,c) {
+	this.row = r;
+	this.col = c;
+}
+
+
+function testnorth(r,c) {
+	offset = 0;
+	if (r > 1  &&  board[r-1][c] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r-x) < 0) break;
+			if (board[r-x][c] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r-x][c] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testsouth(r,c) {
+	offset = 0;
+	if (r < 6  &&  board[r+1][c] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r+x) > 7) break;
+			if (board[r+x][c] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r+x][c] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testeast(r,c) {
+	offset = 0;
+	if (c < 6  &&  board[r][c+1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((c+x) > 7) break;
+			if (board[r][c+x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r][c+x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testwest(r,c) {
+	offset = 0;
+	if (c > 1  &&  board[r][c-1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((c-x) < 0) break;
+			if (board[r][c-x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r][c-x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testseast(r,c) {
+	offset = 0;
+	if (c < 6  && r < 6 && board[r+1][c+1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r+x) > 7 || (c+x) > 7) break;
+			if (board[r+x][c+x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r+x][c+x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testswest(r,c) {
+	offset = 0;
+	if (c > 1  && r < 6 && board[r+1][c-1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r+x) > 7 || (c-x) < 0) break;
+			if (board[r+x][c-x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r+x][c-x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testneast(r,c) {
+	offset = 0;
+	if (c < 6  && r > 1 && board[r-1][c+1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r-x) < 0 || (c+x) > 7) break;
+			if (board[r-x][c+x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r-x][c+x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testnwest(r,c) {
+	offset = 0;
+	if (c > 1  && r > 1 && board[r-1][c-1] == -turn) {
+		for (var x = 2; x < 8; x++) {
+			if ((r-x) < 0 || (c-x) < 0) break;
+			if (board[r-x][c-x] == turn) {
+				offset = x;
+				break;
+				}
+			if (board[r-x][c-x] == 0) break;
+			}
+		}
+	return offset;
+}
+
+function testSpot(r,c) {
+	tarr = new Array();
+	tarr[0] = r;
+	tarr[1] = c;
+	tarr[2] = testnorth(r,c);
+	tarr[3] = testsouth(r,c);
+	tarr[4] = testeast(r,c);
+	tarr[5] = testwest(r,c);
+	tarr[6] = testnwest(r,c);
+	tarr[7] = testneast(r,c);
+	tarr[8] = testswest(r,c);
+	tarr[9] = testseast(r,c);
+	if (tarr[2] > 0 || tarr[3] > 0 || tarr[4] > 0 || tarr[5] > 0 || tarr[6] > 0 || tarr[7] > 0 || tarr[8] > 0 || tarr[9] > 0) return tarr;
+	else {
+		tarr2 = new Array(r, c, 0);
+		return tarr2;
+	}
+}
+
+var moveset;
+
+function getMoves() {
+	var possmoves = findPossibles();
+	moveset = new Array();
+	for (var i = 0; i < possmoves.length; i++) {
+		var temp = testSpot(possmoves[i].row, possmoves[i].col);
+		if (temp.length > 3) moveset[moveset.length] = temp;
+	}
+	//if (moveset.length < 1) checkwin();
+}
+
+
+
+function checkwin() {
+
+
+}
+
+function findPossibles() {
+	var temparray = new Array();
+	var testpc = -turn;
+	for (var i = 0; i < 8; i++) {
+		for (var j = 0; j < 8; j++) {
+			var mayplay = false;
+			if (board[i][j] == 0) {
+				if (i > 0  &&  board[i-1][j] == testpc) mayplay = true;
+				if (i < 7  &&  board[i+1][j] == testpc) mayplay = true;
+				if (j > 0  &&  board[i][j-1] == testpc) mayplay = true;
+				if (j < 7  &&  board[i][j+1] == testpc) mayplay = true;
+				if (i > 0 && j > 0 &&  board[i-1][j-1] == testpc) mayplay = true;
+				if (i > 0 && j < 7 &&  board[i-1][j+1] == testpc) mayplay = true;
+				if (i < 7 && j < 7 &&  board[i+1][j+1] == testpc) mayplay = true;
+				if (i < 7 && j > 0 &&  board[i+1][j-1] == testpc) mayplay = true;
+			}
+			if (mayplay) temparray[temparray.length] = new point(i,j);
+		}
+	}
+	return temparray;
+}
+
+function makeMove(r,c) {
+	if (moveset.length < 1) {
+		//tellme("there are no moves you can make");
+		talk(4);
+		setTimeout("turnswitch();",1000);
+	}
+	else {
+	var themove;
+	var notlegal = true;
+	for (var i = 0; i < moveset.length; i++) {
+		if (moveset[i][0] == r && moveset[i][1] == c) {
+			themove = moveset[i];
+			notlegal = false;
+			break;
+			}
+		}
+	if (notlegal) {
+		//tellme("you cannot make that move");
+		var msgnum = (turn > 0) ? 1 : 2;
+		talk(3);
+		setTimeout("talk("+ msgnum+")",1000);
+		return;
+	}
+	//now update the board
+	for (var i = 0; i < themove[2]; i++) { //north board
+		board[r - i][c] = turn;
+	}
+	for (var i = 0; i < themove[3]; i++) { //south board
+		board[r + i][c] = turn;
+	}
+	for (var i = 0; i < themove[4]; i++) { //east board
+		board[r][c+i] = turn;
+	}
+	for (var i = 0; i < themove[5]; i++) { //west board
+		board[r][c-i] = turn;
+	}
+	for (var i = 0; i < themove[6]; i++) { //nwest board
+		board[r-i][c-i] = turn;
+	}
+	for (var i = 0; i < themove[7]; i++) { //neast board
+		board[r-i][c+i] = turn;
+	}
+	for (var i = 0; i < themove[8]; i++) { //swest board
+		board[r+i][c-i] = turn;
+	}
+	for (var i = 0; i < themove[9]; i++) { //seast board
+		board[r+i][c+i] = turn;
+	}
+	turnswitch();
+	} //ends the no moves else
+}
+
+function switchturns() {
+	if (blacks ==2 && reds == blacks) {
+		turnswitch();
+	}
+	else if (moveset.length < 1) turnswitch();
+	else {
+		var msgnum = (turn > 0) ? 1 : 2;
+		talk(5);
+		setTimeout("talk("+ msgnum+")",1000);
+	}
+
+}
+
+function function1(r,c) {
+	//tellme("row " + r + ", column " + c);
+}
+
+function function2(r,c) {
+	//document.images["t" + r + ":" + c].src="controls/blank.gif";
+}
+
+function function3(r,c) {
+	if (!gameover) makeMove(r,c);
+}
+
+
+function tellme(str) {
+	//temptext = document.listing.tracker.value;
+	//document.listing.tracker.value= temptext + str + "\n";
+	}
+
+
+</script>
+
+</head>
+<body bgcolor="#003300" text="#e0e0e4" onload="setup()" hspace="2" vspace="0" topmargin="0">
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td colspan="4" height="42" background="../branding/gamesbar.gif" align="center">
+<font size="4"><b><blackface>Reversi 4 Two</blackface></b></font>
+</td></tr>
+
+<tr><td width="80">
+</td>
+<td width="6"></td>
+
+<td>
+<script>
+var r = 0;
+var c = 0;
+document.write("<TABLE border=0 cellpadding=0 cellspacing=0>");
+for (r=0; r < 8; r++) {
+	document.write("<TR><TD>");
+	for (c=0; c<8; c++) {
+		document.write("<a href='javascript:function3(" + r + "," + c + ")//'>");
+		document.write("<IMG name='t" + r + ":" + c + "' SRC='"+blank.src+"' border=0 width=40 height=40>");
+	document.write("</a>");
+	}
+	document.write("</TD></TR>");
+}
+document.write("</TABLE>");
+
+</script>
+</td><td>
+<table border="0">
+<tbody><tr><td colspan="2" width="120">
+<img name="talk" src="opieces/msg_blank.gif" width="120" height="87">
+</td></tr>
+<tr><td width="15"></td><td>
+<img src="opieces/sm_white.gif"><img src="numbers/black.gif" width="16" height="19"><img name="w10" src="numbers/black.gif" width="16" height="19"><img name="w1" src="numbers/black.gif" width="16" height="19">
+</td></tr>
+<tr><td></td><td>
+<img src="opieces/sm_black.gif"><img src="numbers/black.gif" width="16" height="19"><img name="g10" src="numbers/black.gif" width="16" height="19"><img name="g1" src="numbers/black.gif" width="16" height="19">
+</td></tr>
+<tr><td></td><td>
+<a href="javascript:switchturns()"><img name="turn" src="opieces/wturn.gif" width="90" height="38" border="0"></a>
+</td></tr>
+<tr><td colspan="2" height="10"></td></tr>
+<tr><td></td><td>
+<a href="index.html"><img src="../../games4tv/common/newgame.gif" border="0"></a>
+</td></tr>
+<tr><td></td><td>
+<a href="rules.html"><img src="../../games4tv/common/rules.gif" border="0"></a>
+</td></tr>
+<tr><td></td><td>
+<a href="index.html"><img src="../../games4tv/common/exit.gif" border="0"></a>
+</td></tr>
+  </tbody></table>
+</td></tr>
+  </tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

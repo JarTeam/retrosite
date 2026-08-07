@@ -1,0 +1,81 @@
+<html><head><meta http-equiv="Copyright" content="Copyright, 2002-2006, Iacta LLC. All rights reserved. For licensing inquiries, email to info@iacta.com">
+
+<title>Reversi Deluxe</title>
+<meta http-equiv="Description" content="A one and 2-player version of the classic strategy game, designed for play on iTV set-top boxes.">
+<meta http-equiv="Copyright" content="Copyright 2002, 2003, Iacta LLC and Laura Buddine. All rights reserved. This game may not be used for any purpose other than testing with the Opera7 iTV SDK except by written license from Iacta LLC.">
+
+<style>
+BODY {
+	background-color: #102810;
+	
+	color: #E0E0E4;
+	font-family : Arial, Tahoma, Helvetica, sans-serif;
+	font-size : 16pt;
+	font-weight: bold;
+	margin-left : 0px;
+	margin-right : 0px;
+	margin-top : 0px;
+	margin-bottom : 0px;
+	text-decoration: bold;
+	scroll: no;
+	scrolling: no;
+}
+P { text-decoration: bold; color:#eaeaea; font: 14pt Arial;}
+</style>
+
+
+<script src="scripts/reversi_logic2.js"></script>
+
+</head>
+<body onload="setup()" vspace="0" bgcolor="#102810" text="#E0E0E4" topmargin="0">
+<table width="100%" height="98%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td align="center" valign="middle">
+<!-- opened the page table -->
+
+	<table border="0" cellpadding="0" cellspacing="0" width="540" height="372">
+		<tbody><tr><td colspan="4" height="42" background="../../games4tv/branding/gamesbar.gif" align="center"><p><blackface>Reversi Deluxe</blackface></p></td></tr>
+		<tr><td width="110" height="130">
+			<table border="0" height="80" cellpadding="0" cellspacing="0">
+			<tbody><tr><td width="100" height="50" valign="top"><img src="dress/reversi_title.gif" width="100" height="50"></td></tr>
+			<tr><td width="100"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td width="20"><img name="wturn" src="dress/pointer.gif" width="15" height="19"></td><td width="40"><img src="pieces/white.gif" width="40" height="40"></td><td width="5"></td><td width="19"><img name="w10" src="dnumbers/black.gif" width="16" height="19"></td><td width="19"><img name="w1" src="dnumbers/black.gif" width="16" height="19"></td><td width="5"></td></tr></tbody></table></td></tr>
+			<tr><td width="100"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td width="20"><img name="bturn" src="dress/pointblank.gif" width="15" height="19"></td><td width="40"><img src="pieces/black.gif" width="40" height="40"></td><td width="5"></td><td width="19"><img name="g10" src="dnumbers/black.gif" width="16" height="19"></td><td width="19"><img name="g1" src="dnumbers/black.gif" width="16" height="19"></td><td width="5"></td></tr></tbody></table></td></tr>
+			<tr><td width="100" height="50" valign="top"></td></tr>
+			</tbody></table>
+			<table cellpadding="0" cellspacing="0" border="0">
+			<tbody><tr><td><a href="javascript:switchturns()"><script>document.write("<IMG SRC='lang/"+lang+"/pass.gif' width=100 height=30 border=0></a>");</script></td></tr>
+			<tr><td><a href="javascript:switchplayers()" id="playerswitch" name="playerswitch"><script>document.write("<IMG name='players' SRC='lang/"+lang+"/1player.gif' width=100 height=30 border=0></a>");</script></td></tr>
+			<tr><td height="10"></td></tr>
+			<tr><td><a href="javascript:location.reload()"><script> document.write("<IMG SRC='lang/"+lang+"/new.gif' width=100 height=30 border=0></a>");</script></td></tr>
+			<tr><td><a href="rules.php"><script> document.write("<IMG SRC='lang/"+lang+"/rules.gif' width=100 height=30 border=0></a>");</script></td></tr>
+			<tr><td><a href="index.php"><script> document.write("<IMG SRC='lang/"+lang+"/exit.gif' width=100 height=30 border=0></a>");</script></td></tr>
+			</tbody></table>
+		</td>
+		<td width="340" height="340" align="center" valign="middle">
+			<table width="340" height="340" cellpadding="0" cellspacing="0" bgcolor="#556655"><tbody><tr><td valign="middle" align="center"> 
+		<script src="scripts/gameboard2.js"></script>
+			</td></tr></tbody></table>
+		</td><td width="10"></td><td width="90" valign="top">
+		<table width="90" border="0" cellpadding="0" cellspacing="0">
+		<tbody><tr><td height="200">
+		<script src="lang/en/talk_graphic.js"></script>		</td></tr>
+		<tr><td height="140" valign="bottom"></td></tr>
+		</tbody></table>
+	</td></tr>
+</tbody></table>
+
+
+
+
+
+
+<!-- close the page table -->
+
+</td></tr>
+
+
+  </tbody></table>
+
+
+
+
+</body></html>

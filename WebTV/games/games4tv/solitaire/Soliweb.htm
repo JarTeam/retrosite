@@ -127,8 +127,13 @@
 			if(winner==1) {document.images[0].src = win.src; winner++}
 			else {document.images[0].src = xxx.src; winner--}
 			}
-		on = setTimeout("flashcard()",500)
 		}
+		
+	function clearFlashcard() {
+		clearTimeout(on)
+		document.images[94].src = blank.src
+		blink = 0
+	}
 
 	function deal() {
 		if(field[2][0]<0) {
@@ -212,6 +217,7 @@
 		good = 0
 		checkwin()
 		display()
+		clearFlashcard()
 		}
 
 	function checkwin() {
@@ -256,6 +262,7 @@
 				if(edges[t-7]>-1) edges[t-7]--
 				source = t
 				}
+		on = setInterval("flashcard()",500)
 		display()
 		}
 
@@ -293,6 +300,7 @@
 					}
 				mark[2] = y
 				source = v
+				on = setInterval("flashcard()",500)
 				display()
 				}
 			}
