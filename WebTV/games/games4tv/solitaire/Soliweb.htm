@@ -223,6 +223,7 @@
 	function checkwin() {
 		if(mark[3]==12 & mark[4]==12 & mark[5]==12 & mark[6]==12) {
 			winner=1
+			on = setInterval("flashcard()",500)
 			document.embeds[0].play()
 			}
 		}
