@@ -1,0 +1,416 @@
+<html>
+<head>
+
+<title>Dotty!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="A truly addictive Javascript game, optimized for TV browsers. It will drive you dotty!">
+<meta http-equiv="author" content="Copyright 2002, Iacta LLC - ALL RIGHTS RESERVED">
+<meta http-equiv="keywords" content="dotty, dots, samegame, javascript, game, Iacta, cable, Net4TV, games, WebTV, Interactive TV, iTV,  DTV, settop, convergence, broadband, TV Internet, Internet terminal, appliance, TV sites, MSNTV, Liberate, AOLTV, UltimateTV">
+<meta http-equiv="distribution" content="global">
+<meta http-equiv="resource-type" content="document">
+<meta http-equiv="Expires" content="Sun, 26 Dec Mar 2001, 12:00:00 GMT">
+<meta http-equiv="Cache-Control" content="no-cache">
+<script>
+var numrows = 12;
+var numcells = 20;
+var score=0;
+color_0 = new Image(20,20);
+color_1 = new Image(20,20);
+color_2 = new Image(20,20);
+color_3 = new Image(20,20);
+color_4 = new Image(20,20);
+color_5 = new Image(20,20);
+color_6 = new Image(20,20);
+high_0 = new Image(20,20);
+high_1 = new Image(20,20);
+high_2 = new Image(20,20);
+high_3 = new Image(20,20);
+high_4 = new Image(20,20);
+high_5 = new Image(20,20);
+high_6 = new Image(20,20);
+blank = new Image(20,20);
+
+if (navigator.appVersion.indexOf("4.0") == -1 ) {
+color_0.src = "elements/i0.gif";
+color_1.src = "elements/i1.gif";
+color_2.src = "elements/i2.gif";
+color_3.src = "elements/i3.gif";
+color_4.src = "elements/i4.gif";
+color_5.src = "elements/i5.gif";
+color_6.src = "elements/i6.gif";
+high_0.src = "elements/i0h.gif";
+high_1.src = "elements/i1h.gif";
+high_2.src = "elements/i2h.gif";
+high_3.src = "elements/i3h.gif";
+high_4.src = "elements/i4h.gif";
+high_5.src = "elements/i5h.gif";
+high_6.src = "elements/i6h.gif";
+blank.src = "elements/blank.gif";
+}
+else {
+color_0.src = "elements/i0.gif";
+color_1.src = "elements/i1.gif";
+color_2.src = "elements/i2.gif";
+color_3.src = "elements/i3.gif";
+color_4.src = "elements/i4.gif";
+color_5.src = "elements/i5.gif";
+color_6.src = "elements/i6.gif";
+high_0.src = "elements/i0h.gif";
+high_1.src = "elements/i1h.gif";
+high_2.src = "elements/i2h.gif";
+high_3.src = "elements/i3h.gif";
+high_4.src = "elements/i4h.gif";
+high_5.src = "elements/i5h.gif";
+high_6.src = "elements/i6h.gif";
+blank.src = "elements/blank.gif";
+}
+
+var sound_0 = "resources/tock.mid";
+var sound_1 = "resources/ding.mid";
+var sound_2 = "resources/chink.mid";
+var sound_3 = "resources/timp.mid";
+var sound_4 = "resources/ping.mid";
+var sound_5 = "resources/timp.mid";
+var sound_6 = "resources/ping.mid";
+var cleared_cells = 0;
+var grid = new Array(numcells*numrows);
+var testcolor;
+var testndx = 0;
+var recurtile;
+var recurfnd ;
+var recurfndx = 0;
+var level = 1;
+total_score=0;
+var won = false;
+var numcolors; //start with 3 colors
+var cookiename = "dotscore";
+var hascookie = false;
+
+function getCookieVal(offset) {
+	hascookie = true;
+	var endstr = document.cookie.indexOf(";", offset);
+	if (endstr == -1) endstr = document.cookie.length;
+	return document.cookie.substring(offset, endstr);
+}
+
+function getCookie(name) {
+	var arg = name + "=";
+	var alen = arg.length;
+	var clen = document.cookie.length;
+	var i = 0;
+	while (i < clen) {
+		var j = i + alen;
+		if (document.cookie.substring(i,j) == arg) return getCookieVal(j);
+			i = document.cookie.indexOf(" ", i) + 1;
+			if (i==0) break;
+	}
+	return null;
+}
+
+function splitCookie(cookiedata) {
+	if (hascookie) {
+	var splitpoint = cookiedata.indexOf("x");
+	var temp = parseInt(cookiedata.substring(0, splitpoint));
+	total_score = temp;
+	temp = parseInt(cookiedata.charAt(splitpoint+1));
+	level = temp;
+	}
+}
+
+var mycookie = getCookie(cookiename);
+
+function setcookie(a,b) {
+	document.cookie = "dotscore= " + a + "x" + b;
+}
+
+function setup_grid() {
+	message("");
+	splitCookie(mycookie);
+	score = 0;
+	recurfndx = 0;
+	numcolors = level+2;
+	recurtile = new Array();
+	recurfnd = new Array();
+	cleared_cells = 0;
+	for (var n = 0;n < numrows; n++) {
+		for (var m = 0; m < numcells; m++) {
+		var randnum = Math.floor(Math.random()*numcolors);
+		//document.images["t" + n + ":" + m].src = eval("color_" + randnum + ".src");
+		grid[(n*numcells)+m] = randnum;
+		}
+	}
+	draw_grid();
+	message("New game, level " + level + " with " + numcolors + " colors!");
+}
+
+function can_change(r,c) {
+	var ndx = r*numcells + c;
+	if (grid[ndx] > -1) {
+	if (((c < numcells-1) && (grid[ndx+1] == grid[ndx])) || ((c > 0) && (grid[ndx-1] == grid[ndx])) || ((r < numrows-1) && (grid[ndx + numcells] == grid[ndx])) || ((r > 0) && (grid[ndx-numcells] == grid[ndx]))){
+	return true;
+	}
+	}
+	return false;
+}
+
+function hilite(r,c) {
+	if (can_change(r,c)) document.images["t" + r + ":" + c].src = eval("high_" + grid[r*numcells + c] + ".src");
+}
+
+function game_over() {
+	for (var n = 0;n < numrows; n++) {
+		for (var m = 0; m < numcells; m++) {
+			if (can_change(n,m)) {
+			return false;
+				}
+			}
+		}
+	return true;
+}
+
+function score_it() {
+	var sc = (recurfndx < 3) ? 0:(recurfndx-2)*level;
+	score = score + ((recurfndx-2+level)*sc);
+	if (cleared_cells == (numrows*numcells)) {
+		score = score + (500*level);
+		won = true;
+		}
+	else message("That move collected " + recurfndx + " dots, scoring " + ((recurfndx-2+level)*sc) + ". Score is " + score);
+}
+
+function clicked(x,y) {
+	if (!can_change(x,y)) return;
+	var n = 0;
+	testcolor=grid[(x*numcells)+y];
+	for (n = 0; n < numrows*numcells; n++) {
+		recurtile[n]= grid[n];
+		} //set up the test array to match the current array
+	recurfndx = 0; //where the array of found matches will begin
+	recur((x*numcells)+y);
+	for (var e = 0; e < numcells; e++) {
+		check_column(e);
+	}
+	check_rows();
+	for (n = 0; n < numrows*numcells; n++) {
+		grid[n]= recurtile[n];
+		}
+	playit(testcolor);
+	draw_grid();
+	cleared_cells = recurfndx + cleared_cells;
+	score_it();
+	if (game_over()) {
+		score = score - ((numrows*numcells) - cleared_cells)*2;
+		total_score = total_score + score;
+		if (numrows*numcells - cleared_cells == 0) {
+			level = level + 1;
+			message("You did it! Your score is " + score + " and your total so far is " + total_score + ". Advancing to level " + level);
+			yay();
+			}
+		else {
+		message("No more moves! Score is " + score + " and total score is " + total_score + ". Restarting at Level 1.");
+		rats();
+		level = 1;
+		score = 0;
+		total_score = 0;
+		}
+		setcookie(total_score,level);
+		setTimeout("location.reload();", 3000);
+	}
+}
+
+function check_column(col_num) {
+	var z = create_colarray(col_num);
+	var s = count_blank(z);
+	if ((s > 0 ) && (s < z.length)) {//keeps it from spending time
+	z = collapse_column(z);
+	replace_array(z, col_num);
+	}
+}
+
+function check_rows() {
+	var temparray2 = new Array();
+	var colcounter = 0;
+	for (var i = 0; i < numcells; i++) {
+		if (recurtile[(numrows-1)*numcells + i] > -1) {
+			for (var j = 0; j < numrows; j++) {
+			temparray2[(j*numcells) + colcounter] = recurtile[(j*numcells) + i];
+			}
+					colcounter++;
+		}
+	}
+		for (var k = colcounter; k < numcells; k++) {
+			for (var j = 0; j < numrows; j++) {
+			temparray2[(j*numcells)+k] = -1;
+		}
+	}
+	for (var m = 0; m < temparray2.length; m++) {
+		recurtile[m] = temparray2[m];
+
+	}
+}
+
+
+function create_colarray(b) {
+	var cheese = new Array();
+	for (var q = numrows - 1; q > -1; q--) { //this will read our column into the array backward
+		cheese[cheese.length] = recurtile[q*numcells+b];
+	}
+	return cheese;
+}
+
+function count_blank(arr1) {
+	var counter = 0;
+	for (var i = 0; i < arr1.length; i++) {
+	if (arr1[i] < 0) {
+	counter++;
+		}
+	}
+	return counter;
+}
+
+
+function reverse_array(arr) {
+	var temparray = new Array();
+	for (var n = arr.length-1; n > -1; n--) {
+		temparray[temparray.length] = arr[n];
+		}
+	return temparray;
+}
+
+function collapse_column(arr) {
+	var temparray1 = new Array();
+	for (var n = 0; n < arr.length; n++) { //walk through the array
+		if (arr[n] > -1) {
+		temparray1[temparray1.length] = arr[n];
+		}
+	}
+	var g = temparray1.length;
+	for (var n = g; n < arr.length; n++) {
+		temparray1[n] = -1;
+	}
+	arr = reverse_array(temparray1);
+	return arr;
+}
+
+
+function replace_array(z, col_num) {
+	for (var i = 0; i < z.length; i++) { //read the collapsed array backwards
+		recurtile[i*numcells+col_num] = z[i];
+	}
+}
+
+function recur(j) { //note new version to prevent going out of range
+	var a = j; //this is the index number of the tile being tested
+	recurfnd[recurfndx++] = a; //set the color
+	recurtile[a] = -1; //set it to be blank
+	if ((a%numcells < numcells-1) && (recurtile[a+1] == testcolor)) recur(a+1); //the additional criteria prevents it from wrapping
+	if ((a%numcells > 0) && (recurtile[a-1] == testcolor)) recur(a-1);
+	if ((a/numcells < numrows-1) && (recurtile[a+numcells] == testcolor)) recur(a+numcells);
+	if ((a/numcells > 1) && (recurtile[a-numcells] == testcolor)) recur(a-numcells);
+}
+
+function draw_grid(){
+	for (var r = 0; r < numrows; r++) {
+		for (var c = 0; c < numcells; c++) {
+			if (grid[r*numcells+c] < 0) document.images["t" + r + ":" + c].src = blank.src;
+			else document.images["t" + r + ":" + c].src=eval("color_" + grid[r*numcells + c] + ".src");
+		}
+	}
+}
+
+
+function unlite(r,c) {
+
+	if (grid[r*numcells+c] > -1) document.images["t" + r + ":" + c].src=eval("color_" + grid[r*numcells + c] + ".src");
+}
+
+
+function message(str) {
+	document.panel.display.value= str;
+	}
+
+function playit(xcolor){
+	if (xcolor == 0) audio.src="resources/chink.mid";
+	if (xcolor == 1) audio.src="resources/timp.mid";
+	if (xcolor == 2) audio.src="resources/ding.mid";
+	if (xcolor == 3) audio.src="resources/tock.mid";
+	if (xcolor == 4) audio.src="resources/ting.mid";
+}
+
+
+function rats() {
+	audio.src="resources/lost.mid"
+	}
+
+function yay() {
+	audio.src="resources/won.mid"
+	}
+
+</script>
+
+</head>
+<body onload="setup_grid()" bgcolor="#181818" text="#EAEAEA" link="#caca55" vlink="#caca55">
+<bgsound id="audio" src="resources/ting.mid" loop="FALSE">
+<!-- regrettably, this image is lost. i will replace it with what it presumably looked like -jarhead
+<table width="528" height="44" background="../graphics/net4tv_game_titles.jpg" cellpadding="0" cellspacing="0" vspace="0" hspace="0">-->
+<table width="531" height="44" background="../branding/gamesbar.gif" cellpadding="0" cellspacing="0" vspace="0" hspace="0">
+<tr><td><center>
+      <font size="5">Dotty!<font>&nbsp;&nbsp;<font size="1">v1.0a</center>
+ </table>
+
+<!-- START GAME AREA -->
+<table width="540" border="0">
+<tr><td width="120">
+
+<table width="120" border="0"><tr><td height="60">
+<!--<a href="http://web.archive.org/web/20030416012004/http://net4tv.com/finds/keyboard.htm"><img src="http://web.archive.org/web/20030416012004im_/http://net4tv.com/net4tv/games/ads/Keyboard_ad_120.gif" width="120" height="60" align="left"></a>-->
+</td></tr>
+<tr><td height="60">
+<!--<font size="2">Want MORE fun? Check out our brand NEW game, <a href="/web/20030416012004/http://net4tv.com/net4tv/games/chox"><b>Chox!</b></a>-->
+</td></tr>
+<tr><td>
+<a href="index.htm"><img src="controls/rules1.gif" width="76" height="30" align="left" border="0"></a>
+</td></tr>
+
+<tr><td>
+<a href="index2.htm"><img src="controls/replay.gif" width="76" height="30" align="left" border="0"></a>
+</td></tr>
+
+<tr><td>
+<a href="../../index.html"><img src="controls/exit.gif" width="76" height="30" align="left" border="0"></a>
+</td></tr>
+</table>
+
+</td><td>
+
+<script>
+var r = 0;
+var c = 0;
+document.write("<TABLE border=0 cellpadding=0 cellspacing=0>");
+for (r=0; r < numrows; r++) {
+	document.write("<TR><TD>");
+	for (c=0; c < numcells; c++) {
+		document.write("<a href='javascript:clicked(" + r + "," + c + ")//'");
+		document.write("onMouseover='javascript:hilite(" + r + "," + c + ")//' ");
+		document.write("onMouseout='javascript:unlite(" + r + "," + c + ")//'>");
+		document.write("<IMG name='t" + r + ":" + c + "' SRC=" + blank.src + " width=20 height=20 border=0>");
+	document.write("</a>");
+	}
+	document.write("</TD></TR>");
+}
+document.write("</TABLE>");
+
+</script>
+
+<table><tr>
+<td width="400"><form name="panel">
+<textarea align="right" name="display" size="50" cols="35" rows="3" bgcolor="#181818" text="#f0f0f0#" noselect border="0">
+WebTV JavaScript bug!!! Reload until this message disappears!
+</textarea></form>
+</td>
+  </tr>
+  </table>
+</td></tr></table>
+
+</body>
+</html>
